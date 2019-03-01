@@ -1,11 +1,12 @@
-from flask import Flask, session, g, request, redirect, url_for, render_template
+from flask import Flask, session, g, request, redirect, url_for, render_template, json, jsonify
 from functools import wraps
 import datetime
 from sqlalchemy import create_engine  
-from sqlalchemy import Column, String, Integer, DateTime  
+from sqlalchemy import Column, String, Integer, DateTime, JSON  
 from sqlalchemy.ext.declarative import declarative_base  
 from sqlalchemy.orm import sessionmaker
 import time
+import os.path
 
 db_string = "postgres://postgres:Kitekuma@localhost:5432/solomon_db"
 
@@ -32,7 +33,8 @@ class Destination(base):
     destination_id = Column(Integer, primary_key=True, autoincrement=True)
     destination_image = Column(String)
     destination_name = Column(String)
-    destination_packages = Column(String)
+    destination_packages = Column(JSON)
+    destination_categories = Column(JSON)
     time_stamp = Column(DateTime, default=datetime.datetime.utcnow)
 
 class Package(base):
@@ -41,13 +43,14 @@ class Package(base):
     package_id = Column(Integer, primary_key=True, autoincrement=True)
     name = Column(String)
     duration = Column(String)
-    from_date = Column(String)
+    expiry_date = Column(String)
     price = Column(String)
     deposit = Column(String)
     destination_id = Column(String)
+    category = Column(JSON)
     details = Column(String)
-    photo = Column(String)
-    itinerary = Column(String)
+    photo = Column(JSON)
+    itinerary = Column(JSON)
     active = Column(String)
     time_stamp = Column(DateTime, default=datetime.datetime.utcnow)
 
@@ -101,28 +104,42 @@ def login_required(f):
         return f(*args, **kwargs)
     return decorated_function
 
+def root_dir():  # pragma: no cover
+    return os.path.abspath(os.path.dirname(__file__))
+
 def create_image_from_datauri(data_uri, image_name):
     from base64 import b64decode
     
     header, encoded = data_uri.split(",", 1)
     data = b64decode(encoded)
     
-    with open("{}.jpeg".format(image_name), "wb") as f:
+    with open("{}/static/real_images/{}.jpeg".format(root_dir(), image_name), "wb") as f:
         f.write(data)
+    
 
-
-def create_image_thumbnail(image_name):
+def create_image_thumbnail(image_path, image_name):
     import glob
     from PIL import Image
+
+    image_file = "{}real_images/{}.jpeg".format(image_path, image_name)
     # get all the jpg files from the current folder
-    for infile in glob.glob("{}.jpeg".format(image_name)):
+    for infile in glob.glob("{}".format(image_file)):
         im = Image.open(infile)
         # convert to thumbnail image
         im.thumbnail((128, 128), Image.ANTIALIAS)
         # don't save if thumbnail already exists
         if infile[0:2] != "T_":
             # prefix thumbnail file with T_
-            im.save("T_" + infile, "JPEG")
+            im.save("{}thumbnails/T_{}.jpeg".format(image_path, image_name), "JPEG")
+
+def get_all_destinations():
+    querys = db_session.query(Destination).all()
+    destination_dictionary = {}
+
+    for query in querys:
+        destination_dictionary.update({query.destination_id : query.destination_name})
+    
+    return destination_dictionary
 
 
 app = Flask(__name__)
@@ -151,7 +168,7 @@ def login():
 @login_required
 def administrator_home():
     error = None
-    return render_template('administrator_home.html', error=error, post_package='post_package')
+    return render_template('administrator_home.html', error=error, post_package='post_package', destinations=get_all_destinations())
 
 @app.route('/post_package', methods=['GET', 'POST'])
 @login_required
@@ -181,8 +198,90 @@ def post_package():
 
         db_session.commit()
         
-    return render_template('administrator_home.html', error=error, post_package='post_package')
+    return render_template('administrator_home.html', error=error, post_package='post_package', destinations=get_all_destinations())
 
+
+@app.route('/receive_destination', methods=['GET', 'POST'])
+@login_required
+def receive_destination():
+    error = None
+    
+    if request.method == 'POST':
+        new_destination_name = str(request.form['new_destination'])
+        photo_data_uri = str(request.form['photo_data_uri'])
+        
+        timestamp = time.time()
+
+        create_image_from_datauri(photo_data_uri, timestamp)
+        create_image_thumbnail("{}/static/".format(root_dir()), timestamp)
+
+        category = {}
+        category['family'] = [] 
+        category['corporate'] = [] 
+        category['friends'] = [] 
+        category['solo'] = [] 
+
+        family_name_1 = [str(request.form['family_name_1']), str(request.form['family_price_1']), str(request.form['family_rating_1'])]
+        family_name_2 = [str(request.form['family_name_2']), str(request.form['family_price_2']), str(request.form['family_rating_2'])]
+        family_name_3 = [str(request.form['family_name_3']), str(request.form['family_price_3']), str(request.form['family_rating_3'])]
+        family_name_4 = [str(request.form['family_name_4']), str(request.form['family_price_4']), str(request.form['family_rating_4'])]
+        family_name_5 = [str(request.form['family_name_5']), str(request.form['family_price_5']), str(request.form['family_rating_5'])]
+
+        category['family'].append({
+                        'family_name_1': family_name_1,
+                        'family_name_2': family_name_2,
+                        'family_name_3': family_name_3,
+                        'family_name_4': family_name_4,
+                        'family_name_5': family_name_5,
+                    })
+
+        corporate_name_1 = [str(request.form['corporate_name_1']), str(request.form['corporate_price_1']), str(request.form['corporate_rating_1'])]
+        corporate_name_2 = [str(request.form['corporate_name_2']), str(request.form['corporate_price_2']), str(request.form['corporate_rating_2'])]
+        corporate_name_3 = [str(request.form['corporate_name_3']), str(request.form['corporate_price_3']), str(request.form['corporate_rating_3'])]
+        corporate_name_4 = [str(request.form['corporate_name_4']), str(request.form['corporate_price_4']), str(request.form['corporate_rating_4'])]
+        corporate_name_5 = [str(request.form['corporate_name_5']), str(request.form['corporate_price_5']), str(request.form['corporate_rating_5'])]
+
+        category['corporate'].append({
+                        'corporate_name_1': corporate_name_1,
+                        'corporate_name_2': corporate_name_2,
+                        'corporate_name_3': corporate_name_3,
+                        'corporate_name_4': corporate_name_4,
+                        'corporate_name_5': corporate_name_5,
+                    })
+
+        friends_name_1 = [str(request.form['friends_name_1']), str(request.form['friends_price_1']), str(request.form['friends_rating_1'])]
+        friends_name_2 = [str(request.form['friends_name_2']), str(request.form['friends_price_2']), str(request.form['friends_rating_2'])]
+        friends_name_3 = [str(request.form['friends_name_3']), str(request.form['friends_price_3']), str(request.form['friends_rating_3'])]
+        friends_name_4 = [str(request.form['friends_name_4']), str(request.form['friends_price_4']), str(request.form['friends_rating_4'])]
+        friends_name_5 = [str(request.form['friends_name_5']), str(request.form['friends_price_5']), str(request.form['friends_rating_5'])]
+
+        category['friends'].append({
+                        'friends_name_1': friends_name_1,
+                        'friends_name_2': friends_name_2,
+                        'friends_name_3': friends_name_3,
+                        'friends_name_4': friends_name_4,
+                        'friends_name_5': friends_name_5,
+                    })
+
+        solo_name_1 = [str(request.form['solo_name_1']), str(request.form['solo_price_1']), str(request.form['solo_rating_1'])]
+        solo_name_2 = [str(request.form['solo_name_2']), str(request.form['solo_price_2']), str(request.form['solo_rating_2'])]
+        solo_name_3 = [str(request.form['solo_name_3']), str(request.form['solo_price_3']), str(request.form['solo_rating_3'])]
+        solo_name_4 = [str(request.form['solo_name_4']), str(request.form['solo_price_4']), str(request.form['solo_rating_4'])]
+        solo_name_5 = [str(request.form['solo_name_5']), str(request.form['solo_price_5']), str(request.form['solo_rating_5'])]
+
+        category['solo'].append({
+                        'solo_name_1': solo_name_1,
+                        'solo_name_2': solo_name_2,
+                        'solo_name_3': solo_name_3,
+                        'solo_name_4': solo_name_4,
+                        'solo_name_5': solo_name_5,
+                    })
+
+        destination = Destination(destination_name=new_destination_name, destination_image=timestamp, destination_categories=category)
+        db_session.add(destination)
+        db_session.commit()
+        
+    return render_template('administrator_home.html', error=error, post_package='post_package', destinations=get_all_destinations())
 
 @app.route('/receive_blob', methods=['GET', 'POST'])
 def receive_blob():
@@ -191,11 +290,22 @@ def receive_blob():
         package_duration = str(request.form['duration'])
         package_price = str(request.form['price'])
         package_destination = str(request.form['destination'])
+        package_expiry_date = str(request.form['expiry_date'])
         package_details = str(request.form['details'])
         package_photo_counter = int(request.form['photo_counter'])
 
+        photo_data = {}  
+        photo_data['photos'] = [] 
+
+        package_itinerary = {}
+        package_itinerary['itinerary'] = [] 
+        
+
+        itinerary_package_photo_counter = int(request.form['itinerary_counter'])
+
         photo = request.form.getlist('photos[]')
-        #app.logger.debug(request.files['photos']) 
+
+        package_category = request.form.getlist('category')
 
         dict = request.form
         for key in dict:
@@ -207,14 +317,97 @@ def receive_blob():
                     timestamp = time.time()
 
                     create_image_from_datauri(data_uri, timestamp)
-                    create_image_thumbnail(timestamp)
+                    create_image_thumbnail("{}/static/".format(root_dir()), timestamp)
 
-                    print(key)
+                    photo_data['photos'].append({  
+                        'photo_name': '{}'.format(timestamp)
+                    })
 
+            # Itinerary section
+            itinerary_range_limit = itinerary_package_photo_counter + 1
+            for x in range(1, itinerary_range_limit):
+                if key == 'itinerary_photo{}'.format(x):
+                    itinerary_data_uri = dict['itinerary_photo{}'.format(x)]
+                    itinerary_title = str(dict['itinerary_title{}'.format(x)])
+                    itinerary_details = str(dict['itinerary_details{}'.format(x)])
+
+                    timestamp = time.time()
+
+                    create_image_from_datauri(itinerary_data_uri, timestamp)
+                    create_image_thumbnail("{}/static/".format(root_dir()), timestamp)
+
+                    package_itinerary['itinerary'].append({
+                        'itinerary_title': itinerary_title,
+                        'itinerary_details': itinerary_details,
+                        'itinerary_photo' : '{}'.format(timestamp)
+                    })
+
+        package = Package(name=package_name, duration=package_duration, expiry_date=package_expiry_date, price=package_price, destination_id=package_destination, category = package_category, details=package_details, photo=photo_data, itinerary=package_itinerary, active="True")
+        db_session.add(package)
+
+        db_session.commit()
 
         return 'blob received'
     print('blob not received')
     return 'blob not received'
+
+
+@app.route('/get_packages')
+def get_packages():
+    # package_query = db_session.query(Package).order_by(Package.name).all();
+    package_query = db_session.query(Package).order_by(Package.package_id).all();
+    packages_array = [];
+    for package in package_query:
+        x = {
+            "package_id": package.package_id,
+            "name": package.name,
+            "duration": package.duration,
+            "expiry_date": package.expiry_date,
+            "price": package.price,
+            "deposit": package.deposit,
+            "destination_id": package.destination_id,
+            "category": package.category,
+            "details": package.details,
+            "photo": package.photo,
+            "itinerary": package.itinerary,
+            "active": package.active,
+            "time_stamp": package.time_stamp
+            }
+        packages_array.append(x)
+    
+    print(packages_array)
+
+    return jsonify(packages_array);
+
+
+@app.route('/get_destinations')
+def get_destinations():
+    # package_query = db_session.query(Package).order_by(Package.name).all();
+    destination_query = db_session.query(Destination).order_by(Destination.destination_id).all();
+    destination_array = [];
+    for destination in destination_query:
+        x = {
+            "destination_id": destination.destination_id,
+            "destination_image": destination.destination_image,
+            "destination_name": destination.destination_name,
+            "destination_categories": destination.destination_categories,
+            "time_stamp": destination.time_stamp
+            }
+        destination_array.append(x)
+    
+    print(destination_array)
+
+    return jsonify(destination_array);
+
+@app.route('/')
+def home():
+    error = None
+    return render_template('home.html', error=error, post_package='post_package', destinations=get_all_destinations())
+
+@app.route('/modal')
+def modal():
+    error = None
+    return render_template('modal.html', error=error, post_package='post_package', destinations=get_all_destinations())
 
 
 @app.route('/pop')
@@ -224,4 +417,4 @@ def popit():
 
 if __name__=='__main__':
     app.debug = True
-    app.run(port=3002)
+    app.run(host='0.0.0.0')
