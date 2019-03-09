@@ -1,62 +1,78 @@
-<div class="carousel slide" data-ride="carousel" id="carousel-1">
-                <div class="carousel-inner" role="listbox">
-                    <div class="carousel-item active">
-                        <div class="jumbotron image1 carousel-hero">
-                            <h1 class="hero-title">Hero Nature</h1>
-                            <p class="hero-subtitle">Nullam id dolor id nibh ultricies vehicula ut id elit. Cras justo odio, dapibus ac facilisis in, egestas eget quam.</p>
-                            <p><a class="btn btn-primary btn-lg hero-button" role="button" href="#" id="hero-button">Book Now</a></p>
+<section class="" id="section-packages">
+                <div class="carousel slide" data-ride="carousel" id="carousel-1">
+                    <div class="carousel-inner" role="listbox">
+                        <div class="carousel-item active">
+                            <div class="jumbotron image1 carousel-hero">
+                                <p>&nbsp;</p>
+                                <h1 class="hero-title">Hero Nature</h1>
+                                <p>&nbsp;</p>
+                                <!-- <p class="hero-subtitle">Nullam id dolor id nibh ultricies vehicula ut id elit. Cras justo odio, dapibus ac facilisis in, egestas eget quam.</p> -->
+                                <p><a class="btn btn-primary btn-lg hero-button" role="button" href="#" id="hero-button">Book Now</a></p>
+                            </div>
+                        </div>
+                        <div class="carousel-item">
+                            <div class="jumbotron image2 carousel-hero">
+                                <p>&nbsp;</p>
+                                <h1 class="hero-title">Hero Nature</h1>
+                                <p>&nbsp;</p>
+                                <!-- <p class="hero-subtitle">Nullam id dolor id nibh ultricies vehicula ut id elit. Cras justo odio, dapibus ac facilisis in, egestas eget quam.</p> -->
+                                <p><a class="btn btn-primary btn-lg hero-button" role="button" href="#">Book Now</a></p>
+                            </div>
+                        </div>
+                        <div class="carousel-item">
+                            <div class="jumbotron image3 carousel-hero">
+                                <p>&nbsp;</p>
+                                <h1 class="hero-title">Hero Nature</h1>
+                                <p>&nbsp;</p>
+                                <!-- <p class="hero-subtitle">Nullam id dolor id nibh ultricies vehicula ut id elit. Cras justo odio, dapibus ac facilisis in, egestas eget quam.</p> -->
+                                <p><a class="btn btn-primary btn-lg hero-button" role="button" href="#">Book Now</a></p>
+                            </div>
                         </div>
                     </div>
-                    <div class="carousel-item">
-                        <div class="jumbotron image2 carousel-hero">
-                            <h1 class="hero-title">Hero Photography</h1>
-                            <p class="hero-subtitle">Nullam id dolor id nibh ultricies vehicula ut id elit. Cras justo odio, dapibus ac facilisis in, egestas eget quam.</p>
-                            <p><a class="btn btn-primary btn-lg hero-button" role="button" href="#">Book Now</a></p>
-                        </div>
-                    </div>
-                    <div class="carousel-item">
-                        <div class="jumbotron image3 carousel-hero">
-                            <h1 class="hero-title">Hero Technology</h1>
-                            <p class="hero-subtitle">Nullam id dolor id nibh ultricies vehicula ut id elit. Cras justo odio, dapibus ac facilisis in, egestas eget quam.</p>
-                            <p><a class="btn btn-primary btn-lg hero-button" role="button" href="#">Book Now</a></p>
-                        </div>
-                    </div>
+                    <div><a class="carousel-control-prev" href="#carousel-1" role="button" data-slide="prev"><i class="fa fa-chevron-left"></i><span class="sr-only">Previous</span></a><a class="carousel-control-next" href="#carousel-1" role="button" data-slide="next"><i class="fa fa-chevron-right"></i><span class="sr-only">Next</span></a></div>
+                    <ol
+                        class="carousel-indicators">
+                        <li data-target="#carousel-1" data-slide-to="0" class="active"></li>
+                        <li data-target="#carousel-1" data-slide-to="1"></li>
+                        <li data-target="#carousel-1" data-slide-to="2"></li>
+                        </ol>
                 </div>
-                <div><a class="carousel-control-prev" href="#carousel-1" role="button" data-slide="prev"><i class="fa fa-chevron-left"></i><span class="sr-only">Previous</span></a><a class="carousel-control-next" href="#carousel-1" role="button" data-slide="next"><i class="fa fa-chevron-right"></i><span class="sr-only">Next</span></a></div>
-                <ol
-                    class="carousel-indicators">
-                    <li data-target="#carousel-1" data-slide-to="0" class="active"></li>
-                    <li data-target="#carousel-1" data-slide-to="1"></li>
-                    <li data-target="#carousel-1" data-slide-to="2"></li>
-                    </ol>
-            </div>
+      </section>
 
-        <!-- <div id="openModal" class="col-sm-12 modalDialog" style="float: left; padding:0px; overflow-x: auto;"> -->
+
         <div class="description" id="description">
             <div class="container">
-                    <div class="col-sm-12" style="padding:0px;">
-                    <a href="#close" title="Close" class="close">X</a>
+                <div class="row">
+                    <div class="col-sm-5" style="padding: 0px;">
+                        <img class="img img-responsive image1_div col-sm-12" />
+                    </div>
+                    <div class="col-sm-7" style="padding: 0px;">
+                        <p><h5>Categories Available In This Package:</h5> <span class="package_category"></span></p>
+                        <p><h5>Price:</h5><span class="package_price"></span> USD for <span class="package_duration"></span> days</p>
+                        <p><h5>Details:</h5><span class="second_page_package_details"></span></p>
+                        <p><h5>Itinerary</h5>
+                            <table class="package_itinerary col-sm-12">
+                                    
+                            </table>
+                        </p>
+                    </div>
+                </div>
+
+                    <!-- <div class="col-sm-12" style="padding:0px;">
+                    <p title="Close" class="close go_to_first_page">X</p>
     
                         <div style="background: white;" class="col-sm-12">
                             <center><h1 class="package_title">Title Of Package</h1></center>
                             <p class="package_category"></p>
-                            <img class="img img-responsive image1_div col-sm-6" /><p class="package_details">In 2015, Azidah Nakazibwe took her four-year-old son to start school. She, however, was determined to have him just go to school for two years for Baby and Top classes even though the school advised that the child studies Middle class too. “First of all, kindergarten is expensive.</p>
+                            <img class="img img-responsive image1_div col-sm-6" /><p class="second_page_package_details">In 2015, Azidah Nakazibwe took her four-year-old son to start school. She, however, was determined to have him just go to school for two years for Baby and Top classes even though the school advised that the child studies Middle class too. “First of all, kindergarten is expensive.</p>
                             <p><span class="package_price"></span> USD for <span class="package_duration"></span> days</p>
                             <p>Expiry: <span class="package_expiry"></span></p>
                             
-                            <!-- <button class="collapsible">Open Collapsible</button>
-                            <div class="content">
-                            <p>Lorem ipsum...</p>
-                            </div>
-                            <button class="collapsible">Open Collapsible</button>
-                            <div class="content">
-                            <p>Lorem ipsum...</p>
-                            </div> -->
-    
+                            Itinerary Section
                             <table class="package_itinerary">
                                 
                             </table>
                         </div>
-                </div>
+                </div> -->
             </div>
         </div>

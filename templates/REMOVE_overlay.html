@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+
+<style>
+/********* Overlay on hover *******/
+/* New overlay on hover */
+.overlay-image .hover {
+ position: absolute;
+ top: 0;
+ height: 100%;
+ width: 100%;
+ opacity: 0;
+ transition: .5s ease;
+}
+/* New overlay appearance on hover */
+.overlay-image:hover .hover {
+ opacity: 1;
+}
+</style>
+
+
+    /* Image and text overlay on hover */
+<div class="overlay-image"><a href="LINK_URL">
+ <img class="image" src="ORIGINAL_IMAGE" alt="Alt text" />
+ <div class="normal">
+  <div class="text">Image + text
+   ORIGINAL</div>
+ </div>
+ <div class="hover">
+  <img class="image" src="OVERLAY_IMAGE" alt="Alt text hover" />
+  <div class="text">Image + text
+   HOVER</div>
+ </div>
+</a></div>
+</body>
+</html>

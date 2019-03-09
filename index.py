@@ -8,6 +8,8 @@ from sqlalchemy.orm import sessionmaker
 import time
 import os.path
 
+title='Holiday Scapes'
+
 db_string = "postgres://postgres:Kitekuma@localhost:5432/solomon_db"
 
 db = create_engine(db_string)  
@@ -403,6 +405,11 @@ def get_destinations():
 def home():
     error = None
     return render_template('home.html', error=error, post_package='post_package', destinations=get_all_destinations())
+
+@app.route('/prototype')
+def prototype():
+    error = None
+    return render_template('prototype.html', error=error, post_package='post_package', destinations=get_all_destinations(), title=title)
 
 @app.route('/modal')
 def modal():

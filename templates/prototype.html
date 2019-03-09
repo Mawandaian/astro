@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <title>{{title}} &mdash; Home</title>
+
+    {% include 'top_links.html' %}
+  </head>
+  <body data-spy="scroll" data-target="#probootstrap-navbar" data-offset="200">
+    {% include 'navbar.html' %}
+
+    <div class="first_page">
+    {% include 'top_section.html' %}
+    {% include 'word_from_executive.html' %}
+    {% include 'packages.html' %}
+    {% include 'destinations.html' %}
+    {% include 'services.html' %}
+    {% include 'contact.html' %}
+    </div>
+    <!-- END first Page -->
+
+    <div class="second_page">
+    {% include 'second_page.html' %}
+    </div>
+    <!-- END second Page -->
+
+    <div class="third_page">
+    {% include 'third_page.html' %}
+    </div>
+    <!-- END second Page -->
+
+    {% include 'footer.html' %}
+    {% include 'bottom_links.html' %}
+  </body>
+</html>

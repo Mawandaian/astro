@@ -1,0 +1,55 @@
+/* .destination_articles{
+    overflow-x: scroll;
+    overflow-y: hidden;
+    white-space: nowrap;
+    -webkit-overflow-scrolling: touch;
+}
+
+.destination_articles {
+    &::-webkit-scrollbar {
+        display: none;
+    }
+}
+
+.destination_item{
+    display: inline-block;
+    white-space: pre-line;
+    box-shadow: 0 3px 6px 0 rgba(0, 0, 0, 0.5), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+}
+
+.destination_articles-flexbox {
+    display: flex;
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    
+    .destination_item {
+        flex: 0 0 auto;
+    }
+} */
+
+.destination_item{
+    box-shadow: 0 3px 6px 0 rgba(0, 0, 0, 0.5), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+}
+
+@import url(https://fonts.googleapis.com/css?family=Roboto:400,900);
+          
+          .module {
+            background-size: cover; 
+            width: 300px;
+            height: 300px;
+            margin: 10px 0 0 10px;
+            position: relative;
+          }
+          
+          .mid h2 {
+            font-family: 'Roboto', sans-serif;
+            font-weight: 1000;
+            color: white;
+            text-transform: uppercase;
+            margin: 0;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            font-size: 2.3rem;
+            transform: translate(-50%, -50%);
+          }

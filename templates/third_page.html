@@ -1,0 +1,128 @@
+<div class="carousel slide" data-ride="carousel" id="carousel-1">
+                <div class="carousel-inner" role="listbox">
+                    <div class="carousel-item active">
+                        <div class="jumbotron destination_image1 carousel-hero">
+                            <p class="hero-subtitle">&nbsp;</p>
+                            <h1 class="hero-title"></h1>
+                            <p>&nbsp;</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        <div class="description" id="description">
+            <div class="container">
+                <div class="row">
+                    <div class="col-sm-5" style="padding: 0px;">
+                        <img class="img img-responsive final_destination_image col-sm-12" />
+                    </div>
+                    <div class="col-sm-7" style="padding: 0px;">
+                        <style>
+                            .tabs {
+  max-width: 640px;
+  margin: 0 auto;
+  padding: 0 20px;
+}
+#tab-button {
+  display: table;
+  table-layout: fixed;
+  width: 100%;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+#tab-button li {
+  display: table-cell;
+  width: 20%;
+}
+#tab-button li a {
+  display: block;
+  padding: .5em;
+  background: #eee;
+  border: 1px solid #ddd;
+  text-align: center;
+  color: #000;
+  text-decoration: none;
+}
+#tab-button li:not(:first-child) a {
+  border-left: none;
+}
+#tab-button li a:hover,
+#tab-button .is-active a {
+  border-bottom-color: transparent;
+  background: #fff;
+}
+.tab-contents {
+  padding: .5em 2em 1em;
+  border: 1px solid #ddd;
+}
+
+
+
+.tab-button-outer {
+  display: none;
+}
+.tab-contents {
+  margin-top: 20px;
+}
+@media screen and (min-width: 640px) {
+  .tab-button-outer {
+    position: relative;
+    z-index: 2;
+    display: block;
+  }
+  .tab-select-outer {
+    display: none;
+  }
+  .tab-contents {
+    position: relative;
+    top: -1px;
+    margin-top: 0;
+  }
+}    
+
+
+/* For Rating */
+.checked {
+  color: orange;
+}
+                        </style>
+                        
+                            <div class="tabs">
+                                    <div class="tab-button-outer">
+                                      <ul id="tab-button">
+
+                                      </ul>
+                                    </div>
+                                    <div class="tab-select-outer">
+
+                                      <select id="tab-select">
+                                        
+                                      </select>
+                                    </div>
+                                  
+                                  
+                                  </div>
+                    </div>
+                </div>
+
+
+                <script>
+                    
+                </script>
+                    <!-- <div class="col-sm-12" style="padding:0px;">
+                        <p title="Close" class="close go_to_first_page">X</p>
+    
+                        <div style="background: white;" class="col-sm-12">
+                            <center><h1 class="destination_title">Title Of Package</h1></center>
+                            <p class="package_category"></p>
+                            <img class="img img-responsive image1_div col-sm-6" /><p class="package_details">In 2015, Azidah Nakazibwe took her four-year-old son to start school. She, however, was determined to have him just go to school for two years for Baby and Top classes even though the school advised that the child studies Middle class too. “First of all, kindergarten is expensive.</p>
+                            <p><span class="package_price"></span> USD for <span class="package_duration"></span> days</p>
+                            <p>Expiry: <span class="package_expiry"></span></p>
+                            
+                        </div>
+                </div> -->
+            </div>
+        </div>
+
+        {% include 'packages.html' %}
