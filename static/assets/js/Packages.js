@@ -35,7 +35,7 @@ for(let c=0; c<=9; c++){
 
         console.log(category_html)
 
-        $('.articles').append('<div style="box-shadow: 0 3px 6px 0 rgba(0, 0, 0, 0.5), 0 6px 20px 0 rgba(0, 0, 0, 0.19);"><div class="package' + packages_received[x].destination_id + '"> '
+        $('.articles').append('<div style="box-shadow: 0 3px 6px 0 rgba(0, 0, 0, 0.5), 0 6px 20px 0 rgba(0, 0, 0, 0.19);" class="package' + packages_received[x].destination_id + '_id"><div class="package' + packages_received[x].destination_id + '"> '
         + '<img class="package_photo" src="static/thumbnails/' + package_photo + '" alt="' + package_name + '"> '
         + '<div class="package_body">'
             + '<center><h4>' + package_name + '</h4></center>'

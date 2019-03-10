@@ -27,17 +27,14 @@ for(let c=0; c<=9; c++){
                  + '<h2>' + destination_name + '</h2>'
                  + '</div>'
 
-            + '<div class="media-body">'
-              + '<h5 class="mb-3">02. Service Title Here</h5>'
-              + '<p>Far far away, behind the word mountains, far from the countries Vokalia and Consonantia, there live the blind texts. </p>'
-            + '</div>'
+            // + '<div class="media-body">'
+            //   + '<h5 class="mb-3">02. Service Title Here</h5>'
+            //   + '<p>Far far away, behind the word mountains, far from the countries Vokalia and Consonantia, there live the blind texts. </p>'
+            // + '</div>'
           + '</div>'
         + '</div>'
         + '<!-- END slide item -->');
     }
 }
 
-
-// Scroll the destinations functionality
-destinations_scroll();
 });

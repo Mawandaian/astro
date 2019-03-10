@@ -1,3 +1,5 @@
+let variable_to_store_destination_id_for_page_one_to_show_all = 0
+
 // Function to rate
 function rate(rate,limit){
     let rate_html = ""
@@ -12,6 +14,8 @@ function rate(rate,limit){
 
 // Function to load second page
 function loadDestination(destination_id){
+    // Scroll to top of page
+    $("html, body").animate({ scrollTop: 0 }, "slow");
 
     let destination_index = destination_id - 1;
 
@@ -28,6 +32,8 @@ function loadDestination(destination_id){
     let tab_counter = 1
 
     $("#tabs").html('')
+    $("#tab-button").html('')
+    $("#tab-select").html('')
     for(let i in destinations_received[destination_index].destination_categories){
         let key = i;
 
@@ -59,43 +65,15 @@ function loadDestination(destination_id){
 
 
     // Function to hide packages that do not belong to that destination
-    FunctionsShowDestinationPackagesHideTheRest(destination_id)
+    // $('.package' + destination_id + '_id').parent().css('position','absolute')
 
-    // let itinerary = destinations_received[destination_index].itinerary.itinerary;
-    // let itinerary_rows = '';
-    // for(let x=0; x<itinerary.length; x++){
-    //     itinerary_rows = itinerary_rows + '<button class="collapsible">' + itinerary[x].itinerary_title + '</button>'
-    //             + '<div class="content">'
-    //             + '<p><div style="width:40%; float:left;"><img class="img-fluid" src="static/real_images/' + itinerary[x].itinerary_photo + '.jpeg"/></div><div style="width:60%; float:left;">' + itinerary[x].itinerary_details + '</div></p>'
-    //             + '</div>';
-    // }
+    // First hide all items and then show those from the chosen destination
+    $('.owl-stage').children().children().parent().hide()
+    $('.owl-stage').children().children('.package' + destination_id + '_id').parent().show()
     
-    // $(".destination_itinerary").html(itinerary_rows);
+    variable_to_store_destination_id_for_page_one_to_show_all = destination_id
 
-    // Getting packages in that destination
 
-    //Updating Global variable with json data
-    //packages_received = SendRequest('GET', {}, '/get_packages, false);
-
-    // for(let x=0; x<packages_received.length; x++){
-    //     if(packages_received[x].destination_id == destination_id){
-    //         let package_photo = 'T_' + packages_received[x].photo.photos[0].photo_name + '.jpeg';
-    //         let package_name = packages_received[x].name
-    //         let package_category = packages_received[x].category
-    //         let package_details = packages_received[x].details
-
-    //         $('.articles').html('')
-            
-    //         $('.articles').append('<div class="col-xs-6 col-sm-4 col-md-3 item">'
-    //         + '<a href="#"><img class="img-fluid" src="static/thumbnails/' + package_photo + '"></a>'
-    //         + '<h3 class="name">' + package_name + '</h3>'
-    //         + '<p class="category">' + package_category + '</p>'
-    //         + '<p class="description">' + package_details + '</p>'
-    //         + '<p class="go_to_second_page" onclick="loadPackage(' + packages_received[x].package_id + ')"><i class="fa fa-arrow-circle-right" style="color:rgb(55,126,63);"></i></p>'
-    //         + '</div>');
-    //     }
-    // }
-    
 
     $(function() {
         var $tabButtonItem = $('#tab-button li'),

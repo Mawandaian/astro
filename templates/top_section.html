@@ -18,18 +18,8 @@
                     <label for="id_label_single">Destination</label>
 
                     <label for="id_label_single" style="width: 100%;">
-                      <select class="js-example-basic-single js-states form-control" id="id_label_single" style="width: 100%;">
-                        <option value="Australia">Australia</option>
-                        <option value="Japan">Japan</option>
-                        <option value="United States">United States</option>
-                        <option value="Brazil">Brazil</option>
-                        <option value="China">China</option>
-                        <option value="Israel">Israel</option>
-                        <option value="Philippines">Philippines</option>
-                        <option value="Malaysia">Malaysia</option>
-                        <option value="Canada">Canada</option>
-                        <option value="Chile">Chile</option>
-                        <option value="Chile">Zimbabwe</option>
+                      <select class="select_destinations js-example-basic-single js-states form-control" id="id_label_single" style="width: 100%;">
+                        <!-- This is where the destination selections go -->
                       </select>
                     </label>
 
@@ -41,18 +31,8 @@
                     <label for="id_label_single2">Holiday Packages</label>
                     <div class="probootstrap_select-wrap">
                       <label for="id_label_single2" style="width: 100%;">
-                      <select class="js-example-basic-single js-states form-control" id="id_label_single2" style="width: 100%;">
-                        <option value="Australia">Australia</option>
-                        <option value="Japan">Japan</option>
-                        <option value="United States">United States</option>
-                        <option value="Brazil">Brazil</option>
-                        <option value="China">China</option>
-                        <option value="Israel">Israel</option>
-                        <option value="Philippines">Philippines</option>
-                        <option value="Malaysia">Malaysia</option>
-                        <option value="Canada">Canada</option>
-                        <option value="Chile">Chile</option>
-                        <option value="Chile">Zimbabwe</option>
+                      <select class="select_packages js-example-basic-single js-states form-control" id="id_label_single2" style="width: 100%;">
+                        <!-- This is where the destination selections go -->
                       </select>
                     </label>
                     </div>
@@ -62,7 +42,7 @@
               <!-- END row -->
               <div class="row">
                 <div class="col-md">
-                  <input type="submit" value="Search Holiday" id="search_holiday" class="btn btn-primary btn-block">
+                  <span name="view_holiday" class="go_to_second_page btn btn-primary btn-block" onclick="buttonLoadPackage()">View Holiday</span>
                 </div>
               </div>
             </div>
