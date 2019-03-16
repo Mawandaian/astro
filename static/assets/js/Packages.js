@@ -44,7 +44,7 @@ for(let c=0; c<=9; c++){
                 + '<p class="package_details">' + package_details + '</p>'
             + '</div>'
             + '<div class="col-sm-2">'
-                + '<a href="#section-packages" class="go_to_second_page" onclick="loadPackage(' + packages_received[x].package_id + ')"><i class="fa fa-chevron-right fa-2x" style="color:rgb(170, 0, 0);"></i></a>'
+                + '<a href="#section-packages" class="go_to_second_page" onclick="loadPackage(' + packages_received[x].package_id + '), addBottomPackageCategoriesToModal(' + packages_received[x].package_id + ')"><i class="fa fa-chevron-right fa-2x" style="color:rgb(170, 0, 0);"></i></a>'
             + '</div>'
         + '</div>'
     + '</div></div>');

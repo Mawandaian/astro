@@ -31,7 +31,23 @@
     </div>
     <!-- END second Page -->
 
+
+
+
+    
+
+    
+
     {% include 'footer.html' %}
     {% include 'bottom_links.html' %}
+
+    <script>
+      let i = 0
+          $("#button").click(function () {
+              document.getElementById('heading').innerHTML = 'Modal Box ' + i;
+
+              i++
+           });
+  </script>
   </body>
 </html>

@@ -6,6 +6,8 @@ function SendRequest(request_method, data, url, async){
         type: request_method,
         data: data,
         contentType: 'application/json',
+        processData: false,
+        contentType: false,
         url: url,						
         success: function(data) {
             the_data = data
@@ -14,6 +16,24 @@ function SendRequest(request_method, data, url, async){
     });
 
     return the_data;
+}
+
+// Function to send booking email to admin
+function send_booking_email(package_id){
+    let form = document.getElementById("booking_form");
+
+    let formdata = new FormData(form);
+
+    for(let package in packages_received){
+        if(package_id == packages_received[package].package_id){
+            formdata.append('id',packages_received[package].package_id)
+            formdata.append('name',packages_received[package].name)
+            formdata.append('destination',packages_received[package].destination_id)
+            formdata.append('details',packages_received[package].details)    
+        }
+    }
+
+    console.log(SendRequest('POST', formdata, '/send_email', false));
 }
 
 // Function to scroll Packages horizontally

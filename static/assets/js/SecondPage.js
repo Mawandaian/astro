@@ -1,3 +1,24 @@
+// This is a variable that is going to hold the package value such that we avoid modal page conflicts
+let package_id_holder = 0
+
+function setGlobalIdHolder(new_value){
+    package_id_holder = new_value;
+};
+
+// Variable to check if it is upper section package selected or not
+let top_section_package = 0
+
+function setTopSectionPackage(new_value){
+    top_section_package = new_value;
+};
+
+// Variable to check if it is destination selected or not
+let package_destination_id = 0
+
+function setPackageDestinationId(new_value){
+    package_destination_id = new_value;
+};
+
 function make_items_collapsible(){
     let coll = document.getElementsByClassName("collapsible");
     let i;
@@ -18,6 +39,10 @@ function make_items_collapsible(){
 // Function to load second page
 function loadPackage(package_id){
     let package_index = package_id - 1;
+
+    // Updating the package id holder variable with the package id
+    setGlobalIdHolder(packages_received[package_index].package_id)
+    //setPackageDestinationId(packages_received[package_index].destination_id)
 
     let category_html = ''
         for(let x=0; x<packages_received[package_index].category.length; x++){
@@ -62,4 +87,11 @@ function loadPackage(package_id){
 
     // Making itinerary collapsible
     make_items_collapsible();
+
+    // Checking if package is loaded from top section of the home screen such that we can load the real package categories in the dropdown of the modal
+    if(top_section_package == 0){
+        addPackageOptions(packages_received)
+    }else{
+        setTopSectionPackage(0)
+    }
 }

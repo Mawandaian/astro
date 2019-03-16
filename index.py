@@ -7,6 +7,8 @@ from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker
 import time
 import os.path
+from flask_mail import Mail, Message
+
 
 title='Holiday Scapes'
 
@@ -145,8 +147,51 @@ def get_all_destinations():
 
 
 app = Flask(__name__)
+
+# Updating the email config
+app.config.update(dict(
+    DEBUG = True,
+    MAIL_SERVER = 'smtp.gmail.com',
+    MAIL_PORT = 587,
+    MAIL_USE_TLS = True,
+    MAIL_USE_SSL = False,
+    MAIL_USERNAME = 'mawazvol@gmail.com',
+    MAIL_PASSWORD = 'Kitekuma1',
+))
+
+# Creating the mail instance
+mail = Mail(app)
+
 # Set the secret key to some random bytes. Keep this really secret!
 app.secret_key = b'_5#y2L"F4Q8z\n\xec]/'
+
+
+@app.route('/send_email', methods=['GET', 'POST'])
+def send_email():
+    if request.method == 'POST':
+        pack_id = str(request.form['id'])
+        pack_name = str(request.form['name'])
+        destination = str(request.form['destination'])
+        full_name = str(request.form['full_name'])
+        email = str(request.form['email'])
+        phone_number = str(request.form['phone_number'])
+        number_of_nights = str(request.form['number_of_nights'])
+        number_of_adults = str(request.form['number_of_adults'])
+        number_of_children = str(request.form['number_of_children'])
+        select_categories = str(request.form['select_categories'])
+        room_type = str(request.form['room_type'])
+        departing_on = str(request.form['departing_on'])
+        returning_on = str(request.form['returning_on'])
+
+        msg = Message("Hello",
+            sender="mawazvol@gmail.com",
+            recipients=["mawazvol@yahoo.com"])
+        # msg.body = "Assured"
+        msg.html = '<html><head></head><body><img src="https://odis.homeaway.com/odis/listing/03af0d91-b8b0-46ee-97be-64462809f6e9.c10.jpg" alt="Here Now"><h1 style="background: black; color: white; ">Title Here</h1><table><tr><td><b>Image:</b></td><td>' + pack_name + '</td></tr><tr><td><b>Package:</b></td><td>' + pack_name + '</td></tr><tr><td><b>Destination:</b></td><td>' + destination + '</td></tr><tr><td><b>Booker\'s Name:</b></td><td>' + full_name + '</td></tr><tr><td><b>Email:</b></td><td>' + email + '</td></tr><tr><td><b>Phone:</b></td><td>' + phone_number + '</td></tr><tr><td><b>Nights:</b></td><td>' + number_of_nights + '</td></tr><tr><td><b>Adults:</b></td><td>' + number_of_adults + '</td></tr><tr><td><b>Children:</b></td><td>' + number_of_children + '</td></tr><tr><td><b>Category:</b></td><td>' + select_categories + '</td></tr><tr><td><b>Room Type:</b></td><td>' + room_type + '</td></tr><tr><td><b>Date From:</b></td><td>' + departing_on + '</td></tr><tr><td><b>Date To:</b></td><td>' + returning_on + '</td></tr></table></body></html>'
+
+        mail.send(msg)
+
+        return 'Sent'
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
@@ -396,8 +441,6 @@ def get_destinations():
             "time_stamp": destination.time_stamp
             }
         destination_array.append(x)
-    
-    print(destination_array)
 
     return jsonify(destination_array);
 
@@ -424,4 +467,4 @@ def popit():
 
 if __name__=='__main__':
     app.debug = True
-    app.run(host='0.0.0.0')
+    app.run(host='0.0.0.0', port=3000)

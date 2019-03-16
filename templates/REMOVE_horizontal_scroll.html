@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+<style>
+    .container {
+    height:50px;
+    width:200px;
+    overflow:hidden;
+    background:crimson;
+}
+#filler {
+    height:50px;
+    width:250px;
+    position:relative;
+    border-radius:10px; 
+    -webkit-transition: left 0.3s ease;
+}
+.module {
+    width:50px;
+    height:50px;
+    border-radius:5px;
+    float:left;
+    line-height:50px;
+    text-align:center;
+}
+</style>
+
+    <button onmouseover="left=1" onmouseout="left=0">
+        </button>
+            <div class="container">
+                <div id="filler" style="left:0px">
+                    <div class="module" style="background:coral;">testing</div>
+                    <div class="module" style="background:lightblue;">testing</div>
+                    <div class="module" style="background:lightgreen;">testing</div>
+                    <div class="module" style="background:salmon;">testing</div>
+                    <div class="module" style="background:lightyellow;">testing</div>
+                </div>
+            </div>
+            <button onmouseover="right=1" onmouseout="right=0">></button>
+
+            <script>
+                var feft = 0
+//feft stands for filler left
+var right = 0
+var left = 0
+var position = 0;
+
+function move() {
+    if (position <= 4) {
+        position++;
+    } else {
+        position = 0;
+    }
+    
+    moduleOffset =  document.querySelector(".module").offsetWidth;
+    
+    filler = document.querySelector("#filler");
+    
+    filler.style.left = -( position* moduleOffset) + "px";
+    
+}
+
+setInterval(move, 1000);
+            </script>
+
+
+<table>
+    <tr><td><b>Image:</b></td><td>3</td></tr>
+    <tr><td><b>Package:</b></td><td>Package Name</td></tr>
+    <tr><td><b>Destination:</b></td><td>Package Name</td></tr>
+    <tr><td><b>Booker's Name:</b></td><td>Package Name</td></tr>
+    <tr><td><b>Email:</b></td><td>Email</td></tr>
+    <tr><td><b>Phone:</b></td><td>0701034077</td></tr>
+    <tr><td><b>Nights:</b></td><td>3</td></tr>
+    <tr><td><b>Adults:</b></td><td>2</td></tr>
+    <tr><td><b>Children:</b></td><td>8</td></tr>
+    <tr><td><b>Category:</b></td><td>Solo</td></tr>
+    <tr><td><b>Room Type:</b></td><td>Layer</td></tr>
+    <tr><td><b>Nights:</b></td><td>3</td></tr>
+    <tr><td><b>Date From:</b></td><td>3</td></tr>
+    <tr><td><b>Date To:</b></td><td>3</td></tr>
+</table>
+</body>
+</html>

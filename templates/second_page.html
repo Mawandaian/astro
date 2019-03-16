@@ -7,7 +7,7 @@
                                 <h1 class="hero-title">Hero Nature</h1>
                                 <p>&nbsp;</p>
                                 <!-- <p class="hero-subtitle">Nullam id dolor id nibh ultricies vehicula ut id elit. Cras justo odio, dapibus ac facilisis in, egestas eget quam.</p> -->
-                                <p><a class="btn btn-primary btn-lg hero-button" role="button" href="#" id="hero-button">Book Now</a></p>
+                                <p><a href="#openModal" id="button" class="btn btn-primary btn-lg hero-button" role="button">Book Package</a></p>
                             </div>
                         </div>
                         <div class="carousel-item">
@@ -16,7 +16,7 @@
                                 <h1 class="hero-title">Hero Nature</h1>
                                 <p>&nbsp;</p>
                                 <!-- <p class="hero-subtitle">Nullam id dolor id nibh ultricies vehicula ut id elit. Cras justo odio, dapibus ac facilisis in, egestas eget quam.</p> -->
-                                <p><a class="btn btn-primary btn-lg hero-button" role="button" href="#">Book Now</a></p>
+                                <p><a href="#openModal" id="button" class="btn btn-primary btn-lg hero-button" role="button">Book Package</a></p>
                             </div>
                         </div>
                         <div class="carousel-item">
@@ -25,7 +25,7 @@
                                 <h1 class="hero-title">Hero Nature</h1>
                                 <p>&nbsp;</p>
                                 <!-- <p class="hero-subtitle">Nullam id dolor id nibh ultricies vehicula ut id elit. Cras justo odio, dapibus ac facilisis in, egestas eget quam.</p> -->
-                                <p><a class="btn btn-primary btn-lg hero-button" role="button" href="#">Book Now</a></p>
+                                <p><a href="#openModal" id="button" class="btn btn-primary btn-lg hero-button" role="button">Book Package</a></p>
                             </div>
                         </div>
                     </div>
@@ -76,3 +76,91 @@
                 </div> -->
             </div>
         </div>
+
+
+
+<!-- MODAL -->
+<div id="openModal" class="modalDialog">
+  <div>
+      <a href="#close" title="Close" class="close">X</a>
+      <h2 id='heading'>Fill In The Form Below To Book</h2>
+      <form action="#" method="post" id="booking_form" name="booking_form" class="probootstrap-form probootstrap-form-box mb60">
+        <div class="row mb-3">
+          <div class="col-md-6">
+            <div class="form-group">
+              <label for="full_name" class="sr-only sr-only-focusable">Full Name</label>
+              <input type="text" class="form-control" id="full_name" name="full_name" placeholder="Full Name">
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="form-group">
+                <label for="email" class="sr-only sr-only-focusable">Email</label>
+                <input type="email" class="form-control" id="email" name="email" placeholder="Email">
+            </div>
+          </div>
+        </div>
+        <div class="row mb-3">
+            <div class="col-md-6">
+              <div class="form-group">
+                <label for="phone_number" class="sr-only sr-only-focusable">Phone Number</label>
+                <input type="text" class="form-control" id="phone_number" name="phone_number" placeholder="Phone Number">
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="form-group">
+                  <label for="number_of_nights" class="sr-only sr-only-focusable">Email</label>
+                  <input type="number" class="form-control" id="number_of_nights" name="number_of_nights" placeholder="Number Of Nights">
+              </div>
+            </div>
+          </div>
+          <div class="row mb-3">
+            <div class="col-md-6">
+              <div class="form-group">
+                <label for="number_of_adults" class="sr-only sr-only-focusable">Number Of Adults</label>
+                <input type="number" class="form-control" id="number_of_adults" name="number_of_adults" placeholder="Number Of Adults">
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="form-group">
+                  <label for="number_of_children" class="sr-only sr-only-focusable">Number Of Children</label>
+                  <input type="number" class="form-control" id="number_of_children" name="number_of_children" placeholder="Number Of Children">
+              </div>
+            </div>
+          </div>
+          <div class="row mb-3">
+            <div class="col-md-6">
+              <div class="form-group">
+                <label for="holiday_type" class="sr-only sr-only-focusable">Holiday Type</label>
+                <select class="form-control" name="select_categories" id="select_categories">
+                    <!-- This is where the options of categories are going -->
+                </select>
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="form-group">
+                  <label for="room_type" class="sr-only sr-only-focusable">Room Type</label>
+                  <input type="text" class="form-control" id="room_type" name="room_type" placeholder="Room Type">
+              </div>
+            </div>
+          </div>
+          <div class="row mb-3">
+            <div class="col-md-6">
+              <div class="form-group">
+                <label for="departing_on" class="sr-only sr-only-focusable">Departing On</label>
+                <input type="date" class="form-control" id="departing_on" name="departing_on" placeholder="Departing On">
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="form-group">
+                  <label for="returning_on" class="sr-only sr-only-focusable">Returning On</label>
+                  <input type="date" class="form-control" id="returning_on" name="returning_on" placeholder="Returning On">
+              </div>
+            </div>
+          </div>
+        <div class="form-group">
+          <span class="btn btn-primary" id="book_now_button">Book Now</span>
+        </div>
+      </form>
+
+  </div>
+</div>
