@@ -42,10 +42,10 @@
               <!-- END row -->
               <div class="row">
                 <div class="col-md-6">
-                  <span name="view_holiday" class="go_to_second_page btn btn-primary btn-block" onclick='loadPackage(parseInt($(".select_packages").val())), addBottomPackageCategoriesToModal(parseInt($(".select_packages").val()))'>View Holiday</span>
+                  <span name="view_holiday" class="go_to_second_page btn btn-primary btn-block" onclick='loadPackage(package_id_getter()), addBottomPackageCategoriesToModal(package_id_getter())'>View Holiday</span>
                 </div>
                 <div class="col-md-6">
-                  <a href="#openModal" id="button" name="book_holiday" class="go_to_second_page btn btn-primary btn-block" onclick='loadPackage(parseInt($(".select_packages").val())), addBottomPackageCategoriesToModal(parseInt($(".select_packages").val())), $("#openModal").show()'>Book Holiday</a>
+                  <a href="#openModal" id="button" name="book_holiday" class="go_to_second_page btn btn-primary btn-block" onclick='$("#openModal").show(), loadPackage(package_id_getter()), addBottomPackageCategoriesToModal(package_id_getter())'>Book Holiday</a>
                 </div>
               </div>
             </div>

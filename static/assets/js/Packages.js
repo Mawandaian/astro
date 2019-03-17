@@ -9,7 +9,6 @@ $(document).ready(function () {
     packages_received = SendRequest('GET', {}, '/get_packages', false);
 
     console.log('The size of packages json is ' + memorySizeOf(packages_received));
-for(let c=0; c<=9; c++){
     for(let x=0; x<packages_received.length; x++){
         let package_photo = 'T_' + packages_received[x].photo.photos[0].photo_name + '.jpeg';
         let package_name = packages_received[x].name
@@ -48,21 +47,5 @@ for(let c=0; c<=9; c++){
             + '</div>'
         + '</div>'
     + '</div></div>');
-
-        // $('.articles').append('<div>'
-        //   + '<div class="media probootstrap-media d-block align-items-stretch mb-4 probootstrap-animate">'
-          
-        //   + '<div class="go_to_third_page module mid destination_item img-fluid" style="width:100%; background-image: url(static/thumbnails/' + package_photo + ')" onclick="loadDestination(' + destinations_received[x].destination_id + ')">'
-        //          + '<h2>' + package_name + '</h2>'
-        //          + '</div>'
-
-        //     + '<div class="media-body">'
-        //       + '<h5 class="mb-3">02. Service Title Here</h5>'
-        //       + '<p>Far far away, behind the word mountains, far from the countries Vokalia and Consonantia, there live the blind texts. </p>'
-        //     + '</div>'
-        //   + '</div>'
-        // + '</div>'
-        // + '<!-- END slide item -->');
-    } 
-}
+    }
 });

@@ -9,7 +9,6 @@ $(document).ready(function () {
 
     console.log('The size of destination json is ' + memorySizeOf(destinations_received));
 
-for(let c=0; c<=9; c++){
     for(let x=0; x<destinations_received.length; x++){
         let destination_photo = 'T_' + destinations_received[x].destination_image + '.jpeg';
         let destination_name = destinations_received[x].destination_name
@@ -35,6 +34,5 @@ for(let c=0; c<=9; c++){
         + '</div>'
         + '<!-- END slide item -->');
     }
-}
 
 });

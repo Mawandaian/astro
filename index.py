@@ -130,7 +130,7 @@ def create_image_thumbnail(image_path, image_name):
     for infile in glob.glob("{}".format(image_file)):
         im = Image.open(infile)
         # convert to thumbnail image
-        im.thumbnail((128, 128), Image.ANTIALIAS)
+        im.thumbnail((512, 512), Image.ANTIALIAS)
         # don't save if thumbnail already exists
         if infile[0:2] != "T_":
             # prefix thumbnail file with T_

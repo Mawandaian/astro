@@ -90,13 +90,10 @@ function loadPackage(package_id){
         $("#accordion").accordion({heightStyle: 'panel'});
     }
 
-    // Making itinerary collapsible
-    make_items_collapsible();
-
-    // Checking if package is loaded from top section of the home screen such that we can load the real package categories in the dropdown of the modal
-    if(top_section_package == 0){
-        addPackageOptions(packages_received)
-    }else{
-        setTopSectionPackage(0)
-    }
+    // // Checking if package is loaded from top section of the home screen such that we can load the real package categories in the dropdown of the modal
+    // if(top_section_package == 0){
+    //     addPackageOptions(packages_received)
+    // }else{
+    //     setTopSectionPackage(0)
+    // }
 }
