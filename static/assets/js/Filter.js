@@ -5,6 +5,7 @@ function addBottomPackageCategoriesToModal(selected_package_id){
 
     for(let package in packages_received){
         if(selected_package_id == packages_received[package].package_id){
+            $('#select_categories').append('<option value="" disabled="" selected="">Choose</option>')
             for(let x=0; x<packages_received[package].category.length; x++){
                 // Adding the destination elements to the selection option
                 $('#select_categories').append('<option value="' + packages_received[package].category[x] + '">' + packages_received[package].category[x] + '</option>')

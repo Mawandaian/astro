@@ -12,6 +12,46 @@ function SendRequest(request_method, data, url, async){
         success: function(data) {
             the_data = data
         },
+        failure: function (response) {
+            alertbox.show("Something went wrong, try sending again please");
+        },
+        async: async
+    });
+
+    return the_data;
+}
+
+
+//Function to send request to the server and get a response using jquery AJAX
+function SendEmailAjaxRequest(request_method, form_object, data, url, async){
+    let the_data = '';
+
+    $.ajax({
+        type: request_method,
+        data: data,
+        contentType: 'application/json',
+        processData: false,
+        contentType: false,
+        url: url,
+        beforeSend: function(){
+            // Show image container
+            $(".send_email_gif").show();
+           },						
+        success: function(data) {
+            the_data = data
+            $("#openModal").hide()
+            alertbox.show("Your Email has been successfully sent, we shall get back to you in a few");
+        },
+        failure: function (response) {
+            alertbox.show("Something went wrong, try sending again please");
+        },
+        complete:function(data){
+            // Hide image container
+            $(".send_email_gif").hide();
+
+            // Then reset form
+            form_object.reset()
+           },
         async: async
     });
 
@@ -33,7 +73,16 @@ function send_booking_email(package_id){
         }
     }
 
-    console.log(SendRequest('POST', formdata, '/send_email', false));
+    // Send the email
+    SendEmailAjaxRequest('POST', form, formdata, '/send_email', true);
+}
+
+function send_message_email(){
+    let form = document.getElementById("message_form");
+    let formdata = new FormData(form);
+
+    // Send the email
+    console.log(SendEmailAjaxRequest('POST', form, formdata, '/send_message_email', true));
 }
 
 // Function to scroll Packages horizontally

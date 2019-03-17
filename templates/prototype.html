@@ -29,8 +29,10 @@
     <div class="third_page">
     {% include 'third_page.html' %}
     </div>
-    <!-- END second Page -->
+    <!-- END third Page -->
 
+    <!-- The message alert div -->
+    <div id="alert-area" class="alert-area"></div>
 
 
 
@@ -45,7 +47,7 @@
       let i = 0
           $("#button").click(function () {
               document.getElementById('heading').innerHTML = 'Modal Box ' + i;
-
+              $("#openModal").show()
               i++
            });
   </script>

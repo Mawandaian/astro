@@ -7,7 +7,7 @@
                                 <h1 class="hero-title">Hero Nature</h1>
                                 <p>&nbsp;</p>
                                 <!-- <p class="hero-subtitle">Nullam id dolor id nibh ultricies vehicula ut id elit. Cras justo odio, dapibus ac facilisis in, egestas eget quam.</p> -->
-                                <p><a href="#openModal" id="button" class="btn btn-primary btn-lg hero-button" role="button">Book Package</a></p>
+                                <p><a href="#openModal" id="button" class="btn btn-primary btn-lg hero-button" role="button" onclick='$("#openModal").show()'>Book Package</a></p>
                             </div>
                         </div>
                         <div class="carousel-item">
@@ -16,7 +16,7 @@
                                 <h1 class="hero-title">Hero Nature</h1>
                                 <p>&nbsp;</p>
                                 <!-- <p class="hero-subtitle">Nullam id dolor id nibh ultricies vehicula ut id elit. Cras justo odio, dapibus ac facilisis in, egestas eget quam.</p> -->
-                                <p><a href="#openModal" id="button" class="btn btn-primary btn-lg hero-button" role="button">Book Package</a></p>
+                                <p><a href="#openModal" id="button" class="btn btn-primary btn-lg hero-button" role="button" onclick='$("#openModal").show()'>Book Package</a></p>
                             </div>
                         </div>
                         <div class="carousel-item">
@@ -25,7 +25,7 @@
                                 <h1 class="hero-title">Hero Nature</h1>
                                 <p>&nbsp;</p>
                                 <!-- <p class="hero-subtitle">Nullam id dolor id nibh ultricies vehicula ut id elit. Cras justo odio, dapibus ac facilisis in, egestas eget quam.</p> -->
-                                <p><a href="#openModal" id="button" class="btn btn-primary btn-lg hero-button" role="button">Book Package</a></p>
+                                <p><a href="#openModal" id="button" class="btn btn-primary btn-lg hero-button" role="button" onclick='$("#openModal").show()'>Book Package</a></p>
                             </div>
                         </div>
                     </div>
@@ -54,6 +54,66 @@
                             <table class="package_itinerary col-sm-12">
                                     
                             </table>
+
+                            <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+  <link rel="stylesheet" href="/resources/demos/style.css">
+  <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+  <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+  <script>
+  $( function() {
+    $( "#accordion" ).accordion();
+  } );
+  </script>
+
+  
+                    <div id="accordion">
+                        <h3>Section 1</h3>
+                        <div>
+                          <p>
+                          Mauris mauris ante, blandit et, ultrices a, suscipit eget, quam. Integer
+                          ut neque. Vivamus nisi metus, molestie vel, gravida in, condimentum sit
+                          amet, nunc. Nam a nibh. Donec suscipit eros. Nam mi. Proin viverra leo ut
+                          odio. Curabitur malesuada. Vestibulum a velit eu ante scelerisque vulputate.
+                          </p>
+                        </div>
+                        <h3>Section 2</h3>
+                        <div>
+                          <p>
+                          Sed non urna. Donec et ante. Phasellus eu ligula. Vestibulum sit amet
+                          purus. Vivamus hendrerit, dolor at aliquet laoreet, mauris turpis porttitor
+                          velit, faucibus interdum tellus libero ac justo. Vivamus non quam. In
+                          suscipit faucibus urna.
+                          </p>
+                        </div>
+                        <h3>Section 3</h3>
+                        <div>
+                          <p>
+                          Nam enim risus, molestie et, porta ac, aliquam ac, risus. Quisque lobortis.
+                          Phasellus pellentesque purus in massa. Aenean in pede. Phasellus ac libero
+                          ac tellus pellentesque semper. Sed ac felis. Sed commodo, magna quis
+                          lacinia ornare, quam ante aliquam nisi, eu iaculis leo purus venenatis dui.
+                          </p>
+                          <ul>
+                            <li>List item one</li>
+                            <li>List item two</li>
+                            <li>List item three</li>
+                          </ul>
+                        </div>
+                        <h3>Section 4</h3>
+                        <div>
+                          <p>
+                          Cras dictum. Pellentesque habitant morbi tristique senectus et netus
+                          et malesuada fames ac turpis egestas. Vestibulum ante ipsum primis in
+                          faucibus orci luctus et ultrices posuere cubilia Curae; Aenean lacinia
+                          mauris vel est.
+                          </p>
+                          <p>
+                          Suspendisse eu nisl. Nullam ut libero. Integer dignissim consequat lectus.
+                          Class aptent taciti sociosqu ad litora torquent per conubia nostra, per
+                          inceptos himenaeos.
+                          </p>
+                        </div>
+                      </div>
                         </p>
                     </div>
                 </div>
@@ -77,83 +137,82 @@
             </div>
         </div>
 
-
-
 <!-- MODAL -->
 <div id="openModal" class="modalDialog">
   <div>
       <a href="#close" title="Close" class="close">X</a>
       <h2 id='heading'>Fill In The Form Below To Book</h2>
+      <img class="send_email_gif" src="static/assets/assets/demo_wait.gif" width="" height="">
       <form action="#" method="post" id="booking_form" name="booking_form" class="probootstrap-form probootstrap-form-box mb60">
         <div class="row mb-3">
           <div class="col-md-6">
             <div class="form-group">
-              <label for="full_name" class="sr-only sr-only-focusable">Full Name</label>
-              <input type="text" class="form-control" id="full_name" name="full_name" placeholder="Full Name">
+              <label for="full_name" class="">Full Name</label>
+              <input type="text" class="form-control" id="full_name" name="full_name" placeholder="">
             </div>
           </div>
           <div class="col-md-6">
             <div class="form-group">
-                <label for="email" class="sr-only sr-only-focusable">Email</label>
-                <input type="email" class="form-control" id="email" name="email" placeholder="Email">
+                <label for="email" class="">Email</label>
+                <input type="email" class="form-control" id="email" name="email" placeholder="">
             </div>
           </div>
         </div>
         <div class="row mb-3">
             <div class="col-md-6">
               <div class="form-group">
-                <label for="phone_number" class="sr-only sr-only-focusable">Phone Number</label>
-                <input type="text" class="form-control" id="phone_number" name="phone_number" placeholder="Phone Number">
+                <label for="phone_number" class="">Phone Number</label>
+                <input type="text" class="form-control" id="phone_number" name="phone_number" placeholder="">
               </div>
             </div>
             <div class="col-md-6">
               <div class="form-group">
-                  <label for="number_of_nights" class="sr-only sr-only-focusable">Email</label>
-                  <input type="number" class="form-control" id="number_of_nights" name="number_of_nights" placeholder="Number Of Nights">
-              </div>
-            </div>
-          </div>
-          <div class="row mb-3">
-            <div class="col-md-6">
-              <div class="form-group">
-                <label for="number_of_adults" class="sr-only sr-only-focusable">Number Of Adults</label>
-                <input type="number" class="form-control" id="number_of_adults" name="number_of_adults" placeholder="Number Of Adults">
-              </div>
-            </div>
-            <div class="col-md-6">
-              <div class="form-group">
-                  <label for="number_of_children" class="sr-only sr-only-focusable">Number Of Children</label>
-                  <input type="number" class="form-control" id="number_of_children" name="number_of_children" placeholder="Number Of Children">
+                  <label for="number_of_nights" class="">Number Of Nights</label>
+                  <input type="number" class="form-control" id="number_of_nights" name="number_of_nights" placeholder="">
               </div>
             </div>
           </div>
           <div class="row mb-3">
             <div class="col-md-6">
               <div class="form-group">
-                <label for="holiday_type" class="sr-only sr-only-focusable">Holiday Type</label>
-                <select class="form-control" name="select_categories" id="select_categories">
+                <label for="number_of_adults" class="">Number Of Adults (12 Years +)</label>
+                <input type="number" class="form-control" id="number_of_adults" name="number_of_adults" placeholder="">
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="form-group">
+                  <label for="number_of_children" class="">Number Of Children (2-11 Years +)</label>
+                  <input type="number" class="form-control" id="number_of_children" name="number_of_children" placeholder="">
+              </div>
+            </div>
+          </div>
+          <div class="row mb-3">
+            <div class="col-md-6">
+              <div class="form-group">
+                <label for="holiday_type" class="">Holiday Type</label>
+                <select class="form-control" name="select_categories" id="select_categories" required>
                     <!-- This is where the options of categories are going -->
                 </select>
               </div>
             </div>
             <div class="col-md-6">
               <div class="form-group">
-                  <label for="room_type" class="sr-only sr-only-focusable">Room Type</label>
-                  <input type="text" class="form-control" id="room_type" name="room_type" placeholder="Room Type">
+                  <label for="room_type" class="">Room Type</label>
+                  <input type="text" class="form-control" id="room_type" name="room_type" placeholder="">
               </div>
             </div>
           </div>
           <div class="row mb-3">
             <div class="col-md-6">
               <div class="form-group">
-                <label for="departing_on" class="sr-only sr-only-focusable">Departing On</label>
-                <input type="date" class="form-control" id="departing_on" name="departing_on" placeholder="Departing On">
+                <label for="departing_on" class="">Departing On</label>
+                <input type="date" class="form-control" id="departing_on" name="departing_on" placeholder="">
               </div>
             </div>
             <div class="col-md-6">
               <div class="form-group">
-                  <label for="returning_on" class="sr-only sr-only-focusable">Returning On</label>
-                  <input type="date" class="form-control" id="returning_on" name="returning_on" placeholder="Returning On">
+                  <label for="returning_on" class="">Returning On</label>
+                  <input type="date" class="form-control" id="returning_on" name="returning_on" placeholder="">
               </div>
             </div>
           </div>

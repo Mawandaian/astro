@@ -1,3 +1,6 @@
+// Function to hide loading gif
+$('.send_email_gif').hide();
+
 // This is a variable that is going to hold the package value such that we avoid modal page conflicts
 let package_id_holder = 0
 
@@ -75,15 +78,17 @@ function loadPackage(package_id){
     $(".package_expiry").html(packages_received[package_index].expiry_date);
 
     let itinerary = packages_received[package_index].itinerary.itinerary;
-    let itinerary_rows = '';
-    for(let x=0; x<itinerary.length; x++){
-        itinerary_rows = itinerary_rows + '<button class="collapsible active_collapsible">' + itinerary[x].itinerary_title + '</button>'
-                + '<div class="content">'
-                + '<p><div style="width:40%; float:left;"><img class="img-fluid" src="static/real_images/' + itinerary[x].itinerary_photo + '.jpeg"/></div><div style="width:60%; float:left; padding: 10px;">' + itinerary[x].itinerary_details + '</div></p>'
-                + '</div>';
-    }
+
+    $("#accordion").children().remove()
+    $("#accordion").accordion("refresh");
     
-    $(".package_itinerary").html(itinerary_rows);
+    for(let x=0; x<itinerary.length; x++){
+        $("#accordion").append('<h3>' + itinerary[x].itinerary_title + '</h3><div class="content"><p><div style="width:40%; float:left;"><img class="img-fluid" src="static/real_images/' + itinerary[x].itinerary_photo + '.jpeg"/></div><div style="width:60%; float:left; padding: 10px;">' + itinerary[x].itinerary_details + '</div></p></div>')
+        $("#accordion").accordion("refresh")
+
+        // Automatically adjust the panel heights
+        $("#accordion").accordion({heightStyle: 'panel'});
+    }
 
     // Making itinerary collapsible
     make_items_collapsible();

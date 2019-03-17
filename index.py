@@ -155,6 +155,8 @@ app.config.update(dict(
     MAIL_PORT = 587,
     MAIL_USE_TLS = True,
     MAIL_USE_SSL = False,
+    MAIL_SUPPRESS_SEND = False,
+    TESTING = False,
     MAIL_USERNAME = 'mawazvol@gmail.com',
     MAIL_PASSWORD = 'Kitekuma1',
 ))
@@ -183,11 +185,30 @@ def send_email():
         departing_on = str(request.form['departing_on'])
         returning_on = str(request.form['returning_on'])
 
-        msg = Message("Hello",
+        msg = Message("Booking",
             sender="mawazvol@gmail.com",
             recipients=["mawazvol@yahoo.com"])
         # msg.body = "Assured"
-        msg.html = '<html><head></head><body><img src="https://odis.homeaway.com/odis/listing/03af0d91-b8b0-46ee-97be-64462809f6e9.c10.jpg" alt="Here Now"><h1 style="background: black; color: white; ">Title Here</h1><table><tr><td><b>Image:</b></td><td>' + pack_name + '</td></tr><tr><td><b>Package:</b></td><td>' + pack_name + '</td></tr><tr><td><b>Destination:</b></td><td>' + destination + '</td></tr><tr><td><b>Booker\'s Name:</b></td><td>' + full_name + '</td></tr><tr><td><b>Email:</b></td><td>' + email + '</td></tr><tr><td><b>Phone:</b></td><td>' + phone_number + '</td></tr><tr><td><b>Nights:</b></td><td>' + number_of_nights + '</td></tr><tr><td><b>Adults:</b></td><td>' + number_of_adults + '</td></tr><tr><td><b>Children:</b></td><td>' + number_of_children + '</td></tr><tr><td><b>Category:</b></td><td>' + select_categories + '</td></tr><tr><td><b>Room Type:</b></td><td>' + room_type + '</td></tr><tr><td><b>Date From:</b></td><td>' + departing_on + '</td></tr><tr><td><b>Date To:</b></td><td>' + returning_on + '</td></tr></table></body></html>'
+        msg.html = '<html><head></head><body><img src="https://odis.homeaway.com/odis/listing/03af0d91-b8b0-46ee-97be-64462809f6e9.c10.jpg" alt="Here Now"><h1 style="background: black; color: white; ">Title Here</h1><table border="1"><tr><td><b>Image:</b></td><td>' + pack_name + '</td></tr><tr><td><b>Package:</b></td><td>' + pack_name + '</td></tr><tr><td><b>Destination:</b></td><td>' + destination + '</td></tr><tr><td><b>Booker\'s Name:</b></td><td>' + full_name + '</td></tr><tr><td><b>Email:</b></td><td>' + email + '</td></tr><tr><td><b>Phone:</b></td><td>' + phone_number + '</td></tr><tr><td><b>Nights:</b></td><td>' + number_of_nights + '</td></tr><tr><td><b>Adults:</b></td><td>' + number_of_adults + '</td></tr><tr><td><b>Children:</b></td><td>' + number_of_children + '</td></tr><tr><td><b>Category:</b></td><td>' + select_categories + '</td></tr><tr><td><b>Room Type:</b></td><td>' + room_type + '</td></tr><tr><td><b>Date From:</b></td><td>' + departing_on + '</td></tr><tr><td><b>Date To:</b></td><td>' + returning_on + '</td></tr></table></body></html>'
+
+        mail.send(msg)
+
+        return 'Sent'
+
+
+@app.route('/send_message_email', methods=['GET', 'POST'])
+def send_message_email():
+    if request.method == 'POST':
+        fname = str(request.form['fname'])
+        lname = str(request.form['lname'])
+        email = str(request.form['email'])
+        message = str(request.form['message'])
+
+        msg = Message("Message",
+            sender="mawazvol@gmail.com",
+            recipients=["mawazvol@yahoo.com"])
+        # msg.body = "Assured"
+        msg.html = '<html><head></head><body><table border="1"><tr><td><b>First Name:</b></td><td>' + fname + '</td></tr><tr><td><b>Last Name:</b></td><td>' + lname + '</td></tr><tr><td><b>Email:</b></td><td>' + email + '</td></tr><tr><td><b>Message:</b></td><td>' + message + '</td></tr></table></body></html>'
 
         mail.send(msg)
 
@@ -467,4 +488,4 @@ def popit():
 
 if __name__=='__main__':
     app.debug = True
-    app.run(host='0.0.0.0', port=3000)
+    app.run(host='0.0.0.0')
