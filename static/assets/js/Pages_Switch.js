@@ -70,6 +70,7 @@ $(document).ready(function () {
 
     // Hide all packages
     $(".go_to_first_page").click(function () {
+        $(".package_heading").html('Holiday Packages');
         previous_page = 1
         // Hide all packages and show them to avoid conflict
         $('.item').hide()

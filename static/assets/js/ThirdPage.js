@@ -17,7 +17,14 @@ function loadDestination(destination_id){
     // Scroll to top of page
     $("html, body").animate({ scrollTop: 0 }, "slow");
 
-    let destination_index = destination_id - 1;
+    let destination_index = 0;
+
+    // Getting the real destination id from json object such that it is perfect
+    for(value in destinations_received){
+        if(destination_id == destinations_received[value].destination_id){
+            destination_index = value;
+        }
+    }
 
     //console.log(destinations_received[destination_index])
 
@@ -37,17 +44,17 @@ function loadDestination(destination_id){
     for(let i in destinations_received[destination_index].destination_categories){
         let key = i;
 
-        $("#tab-button").append('<li><a href="#tab0' + tab_counter + '">' + i + '</a></li>');
+        $("#tab-button").append('<li><a href="#tab0' + tab_counter + '">' + i.charAt(0).toUpperCase() + i.slice(1) + '</a></li>');
         $("#tab-select").append('<option value="#tab0' + tab_counter + '">' + i + '</option>');
 
-        let table_elements = '<tr><th>Hotel</th><th>Price</th><th>Rating</th></tr>'
+        let table_elements = '<tr><th>Hotel</th><th>Rating</th></tr>'
         for(let tr in destinations_received[destination_index].destination_categories[i][0]){
-            table_elements = table_elements + '<tr><td>' + destinations_received[destination_index].destination_categories[i][0][tr][0] + '</td><td>' + destinations_received[destination_index].destination_categories[i][0][tr][1] + '</td><td>' + rate(parseInt(destinations_received[destination_index].destination_categories[i][0][tr][2]),5) + '</td></tr>'
+            table_elements = table_elements + '<tr><td>' + destinations_received[destination_index].destination_categories[i][0][tr][0] + '</td><td>' + rate(parseInt(destinations_received[destination_index].destination_categories[i][0][tr][2]),5) + '</td></tr>'
         }
 
         $(".tabs").append('<div id="tab0' + tab_counter + '" class="tab-contents"></div>')
         $("#tab0" + tab_counter).html('<div id="tab0' + tab_counter + 'class="tab-contents">'
-        + '<h2>' + i + '</h2>'
+        + '<center><h2>Top ' + i.charAt(0).toUpperCase() + i.slice(1) + ' Hotels</h2></center>'
         + '<table class="table table-striped">' + table_elements + '</table>'
       + '</div>')
 
@@ -59,13 +66,10 @@ function loadDestination(destination_id){
 
     $(".destination_details").html(destinations_received[destination_index].details);
     $(".destination_category").html(destinations_received[destination_index].category);
-    $(".destination_price").html(destinations_received[destination_index].price);
+    // $(".destination_price").html(destinations_received[destination_index].price);
     $(".destination_duration").html(destinations_received[destination_index].duration);
     $(".destination_expiry").html(destinations_received[destination_index].expiry_date);
-
-
-    // Function to hide packages that do not belong to that destination
-    // $('.package' + destination_id + '_id').parent().css('position','absolute')
+    $(".package_heading").html('Holiday Packages in ' + destinations_received[destination_index].destination_name);
 
     // First hide all items and then show those from the chosen destination
     $('.owl-stage').children().children().parent().hide()

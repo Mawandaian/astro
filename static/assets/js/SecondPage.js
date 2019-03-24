@@ -41,7 +41,14 @@ function make_items_collapsible(){
 
 // Function to load second page
 function loadPackage(package_id){
-    let package_index = package_id - 1;
+    let package_index = 0;
+
+    // Getting the real destination id from json object such that it is perfect
+    for(value in packages_received){
+        if(package_id == packages_received[value].package_id){
+            package_index = value;
+        }
+    }
 
     // Updating the package id holder variable with the package id
     setGlobalIdHolder(packages_received[package_index].package_id)
@@ -76,24 +83,29 @@ function loadPackage(package_id){
     $(".package_price").html(packages_received[package_index].price);
     $(".package_duration").html(packages_received[package_index].duration);
     $(".package_expiry").html(packages_received[package_index].expiry_date);
+    $(".package_heading").html('Holiday Packages');
+    
 
     let itinerary = packages_received[package_index].itinerary.itinerary;
+    
+    let sorted_itinerary = Array();
 
+    for(let x=0; x<itinerary.length; x++){
+
+        sorted_itinerary[itinerary[x].itinerary_id] = {'id':itinerary[x].itinerary_id, 'title':itinerary[x].itinerary_title,'photo':itinerary[x].itinerary_photo,'details':itinerary[x].itinerary_details}
+    }
+
+    // Remove first element
+    sorted_itinerary.shift()
+    
     $("#accordion").children().remove()
     $("#accordion").accordion("refresh");
     
-    for(let x=0; x<itinerary.length; x++){
-        $("#accordion").append('<h3>' + itinerary[x].itinerary_title + '</h3><div class="content"><p><div style="width:40%; float:left;"><img class="img-fluid" src="static/real_images/' + itinerary[x].itinerary_photo + '.jpeg"/></div><div style="width:60%; float:left; padding: 10px;">' + itinerary[x].itinerary_details + '</div></p></div>')
+    for(let x=0; x<sorted_itinerary.length; x++){
+        $("#accordion").append('<h3>' + sorted_itinerary[x].title + '</h3><div class="content"><p><div style="width:40%; float:left;"><img class="img-fluid" src="static/real_images/' + sorted_itinerary[x].photo + '.jpeg"/></div><div style="width:60%; float:left; padding: 10px;">' + sorted_itinerary[x].details + '</div></p></div>')
         $("#accordion").accordion("refresh")
 
         // Automatically adjust the panel heights
         $("#accordion").accordion({heightStyle: 'panel'});
     }
-
-    // // Checking if package is loaded from top section of the home screen such that we can load the real package categories in the dropdown of the modal
-    // if(top_section_package == 0){
-    //     addPackageOptions(packages_received)
-    // }else{
-    //     setTopSectionPackage(0)
-    // }
 }

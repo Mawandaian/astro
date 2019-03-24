@@ -21,13 +21,20 @@ class Bookings(base):
     __tablename__ = 'bookings'
 
     booking_id = Column(Integer, primary_key=True, autoincrement=True)
-    package_id = Column(String)
-    booker_email = Column(String)
-    booker_phone_number = Column(String)
-    booker_surname = Column(String)
-    booker_firstname = Column(String)
-    booker_message = Column(String)
-    booking_seen = Column(String)
+    pack_id = Column(String)
+    pack_name = Column(String)
+    destination = Column(String)
+    full_name = Column(String)
+    email = Column(String)
+    phone_number = Column(String)
+    number_of_nights = Column(String)
+    number_of_adults = Column(String)
+    number_of_children = Column(String)
+    respetive_ages_of_the_children = Column(String)
+    select_categories = Column(String)
+    room_type = Column(String)
+    departing_on = Column(String)
+    returning_on = Column(String)
     booking_replied = Column(String)
     time_stamp = Column(DateTime, default=datetime.datetime.utcnow)
 
@@ -43,7 +50,7 @@ class Destination(base):
 
 class Package(base):
     __tablename__ = 'package'
-
+    
     package_id = Column(Integer, primary_key=True, autoincrement=True)
     name = Column(String)
     duration = Column(String)
@@ -65,12 +72,18 @@ class Users(base):
     username = Column(String)
     password = Column(String)
 
-
 class Photos(base):
     __tablename__ = 'photos'
 
     photo_id = Column(Integer, primary_key=True, autoincrement=True)
     photo = Column(String)
+    time_stamp = Column(DateTime, default=datetime.datetime.utcnow)
+
+class Subscribe(base):
+    __tablename__ = 'subscribe'
+
+    subcribe_id = Column(Integer, primary_key=True, autoincrement=True)
+    email = Column(String)
     time_stamp = Column(DateTime, default=datetime.datetime.utcnow)
 
 
@@ -95,6 +108,9 @@ users = Users()
 
 photos = Photos()
 #db_session.add(photos)
+
+subscribe = Subscribe()
+#db_session.add(subscribe)
 
 db_session.commit()
 
@@ -180,16 +196,23 @@ def send_email():
         number_of_nights = str(request.form['number_of_nights'])
         number_of_adults = str(request.form['number_of_adults'])
         number_of_children = str(request.form['number_of_children'])
+        respetive_ages_of_the_children = str(request.form['respetive_ages_of_the_children'])
         select_categories = str(request.form['select_categories'])
         room_type = str(request.form['room_type'])
         departing_on = str(request.form['departing_on'])
         returning_on = str(request.form['returning_on'])
 
+        # Subcribe to newsletter and store in the database
+        bookings = Bookings(pack_id=pack_id,pack_name=pack_name,destination=destination,full_name=full_name,email=email,phone_number=phone_number,number_of_nights=number_of_nights,number_of_adults=number_of_adults,number_of_children=number_of_children,respetive_ages_of_the_children=respetive_ages_of_the_children,select_categories=select_categories,room_type=room_type,departing_on=departing_on,returning_on=returning_on)
+        db_session.add(bookings)
+        db_session.commit()
+
+
         msg = Message("Booking",
             sender="mawazvol@gmail.com",
             recipients=["mawazvol@yahoo.com"])
         # msg.body = "Assured"
-        msg.html = '<html><head></head><body><img src="https://odis.homeaway.com/odis/listing/03af0d91-b8b0-46ee-97be-64462809f6e9.c10.jpg" alt="Here Now"><h1 style="background: black; color: white; ">Title Here</h1><table border="1"><tr><td><b>Image:</b></td><td>' + pack_name + '</td></tr><tr><td><b>Package:</b></td><td>' + pack_name + '</td></tr><tr><td><b>Destination:</b></td><td>' + destination + '</td></tr><tr><td><b>Booker\'s Name:</b></td><td>' + full_name + '</td></tr><tr><td><b>Email:</b></td><td>' + email + '</td></tr><tr><td><b>Phone:</b></td><td>' + phone_number + '</td></tr><tr><td><b>Nights:</b></td><td>' + number_of_nights + '</td></tr><tr><td><b>Adults:</b></td><td>' + number_of_adults + '</td></tr><tr><td><b>Children:</b></td><td>' + number_of_children + '</td></tr><tr><td><b>Category:</b></td><td>' + select_categories + '</td></tr><tr><td><b>Room Type:</b></td><td>' + room_type + '</td></tr><tr><td><b>Date From:</b></td><td>' + departing_on + '</td></tr><tr><td><b>Date To:</b></td><td>' + returning_on + '</td></tr></table></body></html>'
+        msg.html = '<html><head></head><body><img src="https://odis.homeaway.com/odis/listing/03af0d91-b8b0-46ee-97be-64462809f6e9.c10.jpg" alt="Here Now"><h1 style="background: black; color: white; ">Title Here</h1><table border="1"><tr><td><b>Image:</b></td><td>' + pack_name + '</td></tr><tr><td><b>Package:</b></td><td>' + pack_name + '</td></tr><tr><td><b>Destination:</b></td><td>' + destination + '</td></tr><tr><td><b>Booker\'s Name:</b></td><td>' + full_name + '</td></tr><tr><td><b>Email:</b></td><td>' + email + '</td></tr><tr><td><b>Phone:</b></td><td>' + phone_number + '</td></tr><tr><td><b>Nights:</b></td><td>' + number_of_nights + '</td></tr><tr><td><b>Adults:</b></td><td>' + number_of_adults + '</td></tr><tr><td><b>Children:</b></td><td>' + number_of_children + '</td></tr><tr><td><b>Respective Ages Of The Children:</b></td><td>' + respetive_ages_of_the_children + '</td></tr><tr><td><b>Category:</b></td><td>' + select_categories + '</td></tr><tr><td><b>Room Type:</b></td><td>' + room_type + '</td></tr><tr><td><b>Date From:</b></td><td>' + departing_on + '</td></tr><tr><td><b>Date To:</b></td><td>' + returning_on + '</td></tr></table></body></html>'
 
         mail.send(msg)
 
@@ -199,16 +222,18 @@ def send_email():
 @app.route('/send_message_email', methods=['GET', 'POST'])
 def send_message_email():
     if request.method == 'POST':
-        fname = str(request.form['fname'])
-        lname = str(request.form['lname'])
         email = str(request.form['email'])
-        message = str(request.form['message'])
+
+        # Subcribe to newsletter and store in the database
+        subscribe = Subscribe(email=email)
+        db_session.add(subscribe)
+        db_session.commit()
 
         msg = Message("Message",
             sender="mawazvol@gmail.com",
             recipients=["mawazvol@yahoo.com"])
         # msg.body = "Assured"
-        msg.html = '<html><head></head><body><table border="1"><tr><td><b>First Name:</b></td><td>' + fname + '</td></tr><tr><td><b>Last Name:</b></td><td>' + lname + '</td></tr><tr><td><b>Email:</b></td><td>' + email + '</td></tr><tr><td><b>Message:</b></td><td>' + message + '</td></tr></table></body></html>'
+        msg.html = '<html><head></head><body>' + email + ' has subcribed to the newsletter</body></html>'
 
         mail.send(msg)
 
@@ -289,11 +314,11 @@ def receive_destination():
         category['friends'] = [] 
         category['solo'] = [] 
 
-        family_name_1 = [str(request.form['family_name_1']), str(request.form['family_price_1']), str(request.form['family_rating_1'])]
-        family_name_2 = [str(request.form['family_name_2']), str(request.form['family_price_2']), str(request.form['family_rating_2'])]
-        family_name_3 = [str(request.form['family_name_3']), str(request.form['family_price_3']), str(request.form['family_rating_3'])]
-        family_name_4 = [str(request.form['family_name_4']), str(request.form['family_price_4']), str(request.form['family_rating_4'])]
-        family_name_5 = [str(request.form['family_name_5']), str(request.form['family_price_5']), str(request.form['family_rating_5'])]
+        family_name_1 = [str(request.form['family_name_1']), str(request.form['family_rating_1'])]
+        family_name_2 = [str(request.form['family_name_2']), str(request.form['family_rating_2'])]
+        family_name_3 = [str(request.form['family_name_3']), str(request.form['family_rating_3'])]
+        family_name_4 = [str(request.form['family_name_4']), str(request.form['family_rating_4'])]
+        family_name_5 = [str(request.form['family_name_5']), str(request.form['family_rating_5'])]
 
         category['family'].append({
                         'family_name_1': family_name_1,
@@ -303,11 +328,11 @@ def receive_destination():
                         'family_name_5': family_name_5,
                     })
 
-        corporate_name_1 = [str(request.form['corporate_name_1']), str(request.form['corporate_price_1']), str(request.form['corporate_rating_1'])]
-        corporate_name_2 = [str(request.form['corporate_name_2']), str(request.form['corporate_price_2']), str(request.form['corporate_rating_2'])]
-        corporate_name_3 = [str(request.form['corporate_name_3']), str(request.form['corporate_price_3']), str(request.form['corporate_rating_3'])]
-        corporate_name_4 = [str(request.form['corporate_name_4']), str(request.form['corporate_price_4']), str(request.form['corporate_rating_4'])]
-        corporate_name_5 = [str(request.form['corporate_name_5']), str(request.form['corporate_price_5']), str(request.form['corporate_rating_5'])]
+        corporate_name_1 = [str(request.form['corporate_name_1']), str(request.form['corporate_rating_1'])]
+        corporate_name_2 = [str(request.form['corporate_name_2']), str(request.form['corporate_rating_2'])]
+        corporate_name_3 = [str(request.form['corporate_name_3']), str(request.form['corporate_rating_3'])]
+        corporate_name_4 = [str(request.form['corporate_name_4']), str(request.form['corporate_rating_4'])]
+        corporate_name_5 = [str(request.form['corporate_name_5']), str(request.form['corporate_rating_5'])]
 
         category['corporate'].append({
                         'corporate_name_1': corporate_name_1,
@@ -317,11 +342,11 @@ def receive_destination():
                         'corporate_name_5': corporate_name_5,
                     })
 
-        friends_name_1 = [str(request.form['friends_name_1']), str(request.form['friends_price_1']), str(request.form['friends_rating_1'])]
-        friends_name_2 = [str(request.form['friends_name_2']), str(request.form['friends_price_2']), str(request.form['friends_rating_2'])]
-        friends_name_3 = [str(request.form['friends_name_3']), str(request.form['friends_price_3']), str(request.form['friends_rating_3'])]
-        friends_name_4 = [str(request.form['friends_name_4']), str(request.form['friends_price_4']), str(request.form['friends_rating_4'])]
-        friends_name_5 = [str(request.form['friends_name_5']), str(request.form['friends_price_5']), str(request.form['friends_rating_5'])]
+        friends_name_1 = [str(request.form['friends_name_1']), str(request.form['friends_rating_1'])]
+        friends_name_2 = [str(request.form['friends_name_2']), str(request.form['friends_rating_2'])]
+        friends_name_3 = [str(request.form['friends_name_3']), str(request.form['friends_rating_3'])]
+        friends_name_4 = [str(request.form['friends_name_4']), str(request.form['friends_rating_4'])]
+        friends_name_5 = [str(request.form['friends_name_5']), str(request.form['friends_rating_5'])]
 
         category['friends'].append({
                         'friends_name_1': friends_name_1,
@@ -331,11 +356,11 @@ def receive_destination():
                         'friends_name_5': friends_name_5,
                     })
 
-        solo_name_1 = [str(request.form['solo_name_1']), str(request.form['solo_price_1']), str(request.form['solo_rating_1'])]
-        solo_name_2 = [str(request.form['solo_name_2']), str(request.form['solo_price_2']), str(request.form['solo_rating_2'])]
-        solo_name_3 = [str(request.form['solo_name_3']), str(request.form['solo_price_3']), str(request.form['solo_rating_3'])]
-        solo_name_4 = [str(request.form['solo_name_4']), str(request.form['solo_price_4']), str(request.form['solo_rating_4'])]
-        solo_name_5 = [str(request.form['solo_name_5']), str(request.form['solo_price_5']), str(request.form['solo_rating_5'])]
+        solo_name_1 = [str(request.form['solo_name_1']), str(request.form['solo_rating_1'])]
+        solo_name_2 = [str(request.form['solo_name_2']), str(request.form['solo_rating_2'])]
+        solo_name_3 = [str(request.form['solo_name_3']), str(request.form['solo_rating_3'])]
+        solo_name_4 = [str(request.form['solo_name_4']), str(request.form['solo_rating_4'])]
+        solo_name_5 = [str(request.form['solo_name_5']), str(request.form['solo_rating_5'])]
 
         category['solo'].append({
                         'solo_name_1': solo_name_1,
@@ -388,6 +413,7 @@ def receive_blob():
                     create_image_thumbnail("{}/static/".format(root_dir()), timestamp)
 
                     photo_data['photos'].append({  
+                        'photo_id': 'photo_id{}'.format(x),
                         'photo_name': '{}'.format(timestamp)
                     })
 
@@ -395,6 +421,7 @@ def receive_blob():
             itinerary_range_limit = itinerary_package_photo_counter + 1
             for x in range(1, itinerary_range_limit):
                 if key == 'itinerary_photo{}'.format(x):
+                    itinerary_id = dict['itinerary_id{}'.format(x)]
                     itinerary_data_uri = dict['itinerary_photo{}'.format(x)]
                     itinerary_title = str(dict['itinerary_title{}'.format(x)])
                     itinerary_details = str(dict['itinerary_details{}'.format(x)])
@@ -405,6 +432,7 @@ def receive_blob():
                     create_image_thumbnail("{}/static/".format(root_dir()), timestamp)
 
                     package_itinerary['itinerary'].append({
+                        'itinerary_id': itinerary_id,
                         'itinerary_title': itinerary_title,
                         'itinerary_details': itinerary_details,
                         'itinerary_photo' : '{}'.format(timestamp)
@@ -414,6 +442,20 @@ def receive_blob():
         db_session.add(package)
 
         db_session.commit()
+
+        # send bulk emails
+        subscribe_query = db_session.query(Subscribe).order_by(Subscribe.subscribe_id).all();
+        
+        with mail.connect() as conn:
+            for email in subscribe_query:
+                message = 'A new holiday package has been added to Holiday Scapes'
+                subject = package_name
+                msg = Message(recipients=[email],
+                            body=message,
+                            subject=subject)
+
+                conn.send(msg)
+
 
         return 'blob received'
     print('blob not received')
@@ -443,8 +485,6 @@ def get_packages():
             }
         packages_array.append(x)
     
-    print(packages_array)
-
     return jsonify(packages_array);
 
 
@@ -464,6 +504,55 @@ def get_destinations():
         destination_array.append(x)
 
     return jsonify(destination_array);
+
+
+@app.route('/get_single_destination', methods=['GET', 'POST'])
+def get_single_destination():
+    if request.method == 'POST':
+        destination_id = str(request.form['destination_id'])
+
+        destination_query = db_session.query(Destination).order_by(Destination.destination_id).all();
+        destination_array = [];
+        for destination in destination_query:
+            if str(destination.destination_id) == destination_id:
+                x = {
+                    "destination_id": destination.destination_id,
+                    "destination_name": destination.destination_name,
+                    "destination_image": destination.destination_image,
+                    "destination_categories": destination.destination_categories
+                    }
+                destination_array.append(x)
+        
+        return jsonify(destination_array);
+        
+
+@app.route('/get_single_package', methods=['GET', 'POST'])
+def get_single_package():
+    if request.method == 'POST':
+        package_id = str(request.form['package_id'])
+
+        package_query = db_session.query(Package).order_by(Package.package_id).all();
+        package_array = [];
+        for package in package_query:
+            if str(package.package_id) == package_id:
+                x = {
+                    "package_id": package.package_id,
+                    "package_name": package.name,
+                    "destination_id": package.destination_id,
+                    "duration": package.duration,
+                    "expiry_date": package.expiry_date,
+                    "price": package.price,
+                    "details": package.details,
+                    "category": package.category,
+                    "photo": package.photo,
+                    "itinerary": package.itinerary,
+                    }
+                package_array.append(x)
+        
+        print(package_array)
+
+        return jsonify(package_array);
+ 
 
 @app.route('/')
 def home():

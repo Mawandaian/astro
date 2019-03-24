@@ -87,6 +87,7 @@ for(let destination in destinations){
 // Getting the packages in that destination
 $(".select_destinations").change(function () {
     addPackageOptions(packages_received)
+    package_id_setter($(".select_packages").val())
 });
 
 // Getting the packages in that destination

@@ -8,9 +8,18 @@ $(document).ready(function () {
     //Updating Global variable with json data
     packages_received = SendRequest('GET', {}, '/get_packages', false);
 
+
+
     console.log('The size of packages json is ' + memorySizeOf(packages_received));
     for(let x=0; x<packages_received.length; x++){
-        let package_photo = 'T_' + packages_received[x].photo.photos[0].photo_name + '.jpeg';
+        let package_photo = ''
+
+        for(let first_photo=0; first_photo<packages_received[x].photo.photos.length; first_photo++){
+            if(packages_received[x].photo.photos[first_photo].photo_id=='photo_id1'){
+                package_photo = 'T_' + packages_received[x].photo.photos[first_photo].photo_name + '.jpeg';
+            }
+        }
+
         let package_name = packages_received[x].name
         let package_category = packages_received[x].category
         let package_details = packages_received[x].details
@@ -43,7 +52,7 @@ $(document).ready(function () {
                 + '<p class="package_details">' + package_details + '</p>'
             + '</div>'
             + '<div class="col-sm-2">'
-                + '<a href="#section-packages" class="go_to_second_page" onclick="loadPackage(' + packages_received[x].package_id + '), addBottomPackageCategoriesToModal(' + packages_received[x].package_id + ')"><i class="fa fa-chevron-right fa-2x" style="color:rgb(170, 0, 0);"></i></a>'
+                + '<a href="#section-packages" class="go_to_second_page" onclick="loadPackage(' + packages_received[x].package_id + '), addBottomPackageCategoriesToModal(' + packages_received[x].package_id + ')"><span class="btn btn-success"><b>View Package</b></span></a>'
             + '</div>'
         + '</div>'
     + '</div></div>');

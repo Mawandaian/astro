@@ -1,3 +1,18 @@
+//functio
+function bubblesort(array){
+    let swapped;
+    do{
+        swapped=false;
+        for(let i=0; i<array.length; i++){
+            if(array[i] && array[i+1] && array[i] > array[i+1]){
+                swap(array,i,i+1);
+                swapped = true;
+            }
+        }
+    }while(swapped);
+    return array;
+}
+
 //Function to send request to the server and get a response using jquery AJAX
 function SendRequest(request_method, data, url, async){
     let the_data = '';
