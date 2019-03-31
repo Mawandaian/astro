@@ -12,6 +12,9 @@
             <button onclick="edit_destination(2)">Edit Destination</button>
 
             <form action="http://127.0.0.1:5000/{{package_destination}}" method="post" id="destinationForm" onsubmit="return false;" enctype='multipart/form-data' >
+                <input type="text" id="destination_id" name="destination_id" value="0" />
+                <input type="text" id="edit_destination_variable" name="edit_destination_variable" value="0" />
+                <input type="text" id="delete_destination_variable" name="delete_destination_variable" value="0" />
                 <input type="text" placeholder="New Destination Name" name="new_destination" id="new_destination" value="{{
                     request.form.new_destination }}"><br />
                 <p>Add Destination Image</p>
@@ -50,7 +53,7 @@
                     <input type="text" name="solo_name_4" id="solo_name_4" placeholder="Forth" required /><input type="text" name="solo_rating_4" id="solo_rating_4" placeholder="Rating Out Of 5" required /><br required />
                     <input type="text" name="solo_name_5" id="solo_name_5" placeholder="Fifth" required /><input type="text" name="solo_rating_5" id="solo_rating_5" placeholder="Rating Out Of 5" required /><br required />
                 </div>
-                <input class="btn btn-default" type="submit" id="destination_button" value="Post Destination">
+                <input class="btn btn-default" type="submit" id="destination_button" value="Save">
             </form>
         </div>
 
@@ -60,6 +63,10 @@
         <br>
         <div id="wait" style="display:none;width:69px;height:89px;border:1px solid black;position:absolute;top:50%;left:50%;padding:2px;"><img src='https://www.w3schools.com/jquery/demo_wait.gif' width="64" height="64" /><br>Loading..</div>
         <form action="http://127.0.0.1:5000/{{post_package}}" method="post" id="myForm" onsubmit="return false;" enctype='multipart/form-data' >
+            <input type="text" id="package_id" name="package_id" value="0" />
+            <input type="text" id="edit_package_variable" name="edit_package_variable" value="0" />
+            <input type="text" id="delete_package_variable" name="delete_package_variable" value="0" />
+
             <input type="text" placeholder="Package Name" name="package_name" id="package_name" value="{{
                 request.form.package_name }}"><br /><br />
             <input type="text" placeholder="Duration" name="duration" id="duration" value="{{
@@ -102,7 +109,7 @@
                         <div onclick="addItineraryTagsFunction(itinerary_increment())" style="background: blue; color:white; padding:2px; width: 170px; ">Add Package Itinerary</div><br /><br />
                     </div>
 
-            <input class="btn btn-default" type="submit" id="button" value="Post">
+            <input class="btn btn-default" type="submit" id="button" value="Save">
         </form>
 
         <script src="{{ url_for('static', filename='assets/js/jquery.min.js') }}"></script>
@@ -261,7 +268,9 @@
 
         $(document).ajaxComplete(function(){
             $("#wait").css("display", "none");
-            //alert('Package added successfully')
+            
+            // Form reset
+            location.reload();
         });
 
         $.ajax({
@@ -283,8 +292,6 @@
         },
         async:false
     });
-
-    //form.innerHTML='<input type="text" placeholder="Package Name" name="package_name" value="{{request.form.package_name }}"><br /><input type="text" placeholder="Duration" name="duration" value="{{request.form.duration }}"><br /><input type="text" placeholder="Price" name="price" value="{{request.form.price }}"><br /><input type="text" placeholder="Destination" name="destination" value="{{request.form.destination }}"><br /><textarea placeholder="Details" name="details">{{ request.form.details }}</textarea><br /><div id="photo_holder"><br /><input type="text" name="photo_counter" id="photo_counter" value="0" /><br /><div onclick="addImageTagsFunction(increment(), "photo_holder")">Add Photo</div></div><div id="itinerary_holder"><br /><input type="text" name="itinerary_counter" id="itinerary_counter" value="0" /><br /><div onclick="addItineraryTagsFunction(itinerary_increment())">Add Itinerary</div></div><input class="btn btn-default" type="submit" id="button" value="Post">'
 });
         </script>
 
@@ -308,7 +315,9 @@
 
         $(document).ajaxComplete(function(){
             $("#wait").css("display", "none");
-            //alert('Package added successfully')
+            
+            // Reset Photo
+            location.reload();
         });
 
         $.ajax({

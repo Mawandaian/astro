@@ -1,3 +1,24 @@
+//get image dataurl
+function getBase64FromImageUrl(url, textarea_holder) {
+    var img = new Image();
+    
+    img.setAttribute('crossOrigin', 'anonymous');
+    
+    img.onload = function () {
+    var canvas = document.createElement("canvas");
+    canvas.width =this.width;
+    canvas.height =this.height;
+    
+    var ctx = canvas.getContext("2d");
+    ctx.drawImage(this, 0, 0);
+    
+    var dataURL = canvas.toDataURL("image/jpeg");
+    textarea_holder.value = dataURL.replace(/^data:image\/(png|jpg);base64,/, "");
+    };
+    
+    img.src = url;
+    } 
+
 function edit_destination(destination_id){
     let formdata = new FormData();
     formdata.append('destination_id', destination_id)
@@ -7,7 +28,12 @@ function edit_destination(destination_id){
     document.getElementById('new_destination').value = destination_details[0].destination_name
     document.getElementById('preview_destination_increment_1').src = 'static/thumbnails/T_' + destination_details[0].destination_image + '.jpeg';
 
+    getBase64FromImageUrl('static/real_images/' + destination_details[0].destination_image + '.jpeg', document.getElementById('photo_data_uri_destination_increment_1'));
+    
     for(category in destination_details[0].destination_categories){
+
+        document.getElementById('destination_id').setAttribute('value', destination_details[0].destination_id);
+
         for(single_category in destination_details[0].destination_categories[category]){
             let number = 1
             for(category_name in destination_details[0].destination_categories[category][single_category]){
@@ -19,6 +45,9 @@ function edit_destination(destination_id){
             }
         }
     }
+
+    // change id
+    document.getElementById('edit_destination_variable').setAttribute('value', '1');
 
     console.log('Here: ',destination_details)
 }
@@ -37,6 +66,8 @@ function edit_package(package_id){
     document.getElementById('details').value = package_details[0].details;
     document.getElementById('expiry_date').value = package_details[0].expiry_date;
 
+    document.getElementById('package_id').setAttribute('value', package_details[0].package_id);
+
     for(category in package_details[0].category){
         document.getElementById(package_details[0].category[category]).checked = true;
     }
@@ -44,7 +75,7 @@ function edit_package(package_id){
 //////////////////////////////////////////////////////////
     let package_photos = Array();
     for(photo in package_details[0].photo.photos){
-        package_photos[package_details[0].photo.photos[photo].photo_id.substring(8)] = {'id':package_details[0].photo.photos[photo].photo_id, 'name':package_details[0].photo.photos[photo].photo_name}        
+        package_photos[package_details[0].photo.photos[photo].photo_id.substring(8)] = {'id':package_details[0].photo.photos[photo].photo_id, 'name':package_details[0].photo.photos[photo].photo_name}  
     }
     package_photos.shift()
 
@@ -52,6 +83,8 @@ function edit_package(package_id){
     for(let x=0; x<package_photos.length; x++){
         pt = x+1
         addImageTagsFunction(increment(), 'photo_holder')
+        // Update image textareas
+        getBase64FromImageUrl('static/real_images/' + package_photos[x].name + '.jpeg', document.getElementById('photo_data_uri_'+pt));
         document.getElementById('preview_'+pt).src = 'static/thumbnails/T_' + package_photos[x].name + '.jpeg';
     }
 //////////////////////////////////////////////////////
@@ -66,8 +99,12 @@ function edit_package(package_id){
     for(let x=0; x<sorted_itinerary.length; x++){
         ct = x+1
         addItineraryTagsFunction(itinerary_increment())
+        getBase64FromImageUrl('static/real_images/' + sorted_itinerary[x].photo + '.jpeg', document.getElementById('itinerary_photo_data_uri_'+ct));
+
         document.getElementById('itinerary_preview_'+ct).src = 'static/thumbnails/T_' + sorted_itinerary[x].photo + '.jpeg';
         document.getElementById('itinerary_title_'+ct).value = sorted_itinerary[x].title;
         document.getElementById('itinerary_details_'+ct).value = sorted_itinerary[x].details;
     }
+
+    document.getElementById('edit_package_variable').setAttribute('value', '1');
 }

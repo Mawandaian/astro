@@ -278,14 +278,6 @@ def post_package():
 
         photo_ids = []
 
-        # for photo in range(0, package_photo_counter):
-        #     package_photo_data_uri = request.form['photo_data_uri_1']
-        #     photos = Photos(photo=package_photo_data_uri)
-        #     db_session.add(photos)
-        #     db_session.flush()
-        #     db_session.refresh(photos)
-        #     photo_ids.append(photos.photo_id)
-
         package = Package(name=package_name, duration=package_duration, price=package_price, destination_id=package_destination, details=package_details, photo=photo_ids)
         db_session.add(package)
 
@@ -305,8 +297,9 @@ def receive_destination():
         
         timestamp = time.time()
 
-        create_image_from_datauri(photo_data_uri, timestamp)
-        create_image_thumbnail("{}/static/".format(root_dir()), timestamp)
+        if photo_data_uri != '':
+            create_image_from_datauri(photo_data_uri, timestamp)
+            create_image_thumbnail("{}/static/".format(root_dir()), timestamp)
 
         category = {}
         category['family'] = [] 
@@ -370,8 +363,16 @@ def receive_destination():
                         'solo_name_5': solo_name_5,
                     })
 
-        destination = Destination(destination_name=new_destination_name, destination_image=timestamp, destination_categories=category)
-        db_session.add(destination)
+        if str(request.form['edit_destination_variable']) != '1':
+            destination = Destination(destination_name=new_destination_name, destination_image=timestamp, destination_categories=category)
+            db_session.add(destination)
+        else:
+            # Checking if imageuri has data
+            if photo_data_uri != '':
+                destination = db_session.query(Destination).filter_by(destination_id = str(request.form['destination_id'])).update(dict(destination_name=new_destination_name,destination_image=timestamp,destination_categories=category));
+            else:
+                destination = db_session.query(Destination).filter_by(destination_id = str(request.form['destination_id'])).update(dict(destination_name=new_destination_name,destination_categories=category));
+                
         db_session.commit()
         
     return render_template('administrator_home.html', error=error, post_package='post_package', destinations=get_all_destinations())
@@ -419,9 +420,10 @@ def receive_blob():
 
             # Itinerary section
             itinerary_range_limit = itinerary_package_photo_counter + 1
+            print(key)
             for x in range(1, itinerary_range_limit):
                 if key == 'itinerary_photo{}'.format(x):
-                    itinerary_id = dict['itinerary_id{}'.format(x)]
+                    # itinerary_id = dict['itinerary_id{}'.format(x)]
                     itinerary_data_uri = dict['itinerary_photo{}'.format(x)]
                     itinerary_title = str(dict['itinerary_title{}'.format(x)])
                     itinerary_details = str(dict['itinerary_details{}'.format(x)])
@@ -432,29 +434,45 @@ def receive_blob():
                     create_image_thumbnail("{}/static/".format(root_dir()), timestamp)
 
                     package_itinerary['itinerary'].append({
-                        'itinerary_id': itinerary_id,
+                        'itinerary_id': x,
                         'itinerary_title': itinerary_title,
                         'itinerary_details': itinerary_details,
                         'itinerary_photo' : '{}'.format(timestamp)
                     })
 
-        package = Package(name=package_name, duration=package_duration, expiry_date=package_expiry_date, price=package_price, destination_id=package_destination, category = package_category, details=package_details, photo=photo_data, itinerary=package_itinerary, active="True")
-        db_session.add(package)
+        if str(request.form['edit_package_variable']) != '1':        
+            package = Package(name=package_name, duration=package_duration, expiry_date=package_expiry_date, price=package_price, destination_id=package_destination, category = package_category, details=package_details, photo=photo_data, itinerary=package_itinerary, active="True")
+            db_session.add(package)
 
+            # send bulk emails
+            # subscribe_query = db_session.query(Subscribe).order_by(Subscribe.subscribe_id).all();
+            
+            # with mail.connect() as conn:
+            #     for email in subscribe_query:
+            #         message = 'A new holiday package has been added to Holiday Scapes'
+            #         subject = package_name
+            #         msg = Message(recipients=[email],
+            #                     body=message,
+            #                     subject=subject)
+
+            #         conn.send(msg)
+        else:
+            # Checking if imageuri has data
+            for c in db_session.query(Package).filter_by(package_id = request.form['package_id']).all():
+                c.name=package_name
+                c.duration=package_duration 
+                c.expiry_date=package_expiry_date 
+                c.price=package_price 
+                c.destination_id=package_destination 
+                c.category = package_category 
+                c.details=package_details 
+                c.photo=photo_data 
+                c.itinerary=package_itinerary 
+                c.active="True"
+
+            # package = db_session.query(Package).filter_by(package_id = request.form['package_id']).update(dict(name=package_name, duration=package_duration, expiry_date=package_expiry_date, price=package_price, destination_id=package_destination, category = package_category, details=package_details, photo=photo_data, itinerary=package_itinerary, active="True"));
+              
         db_session.commit()
-
-        # send bulk emails
-        subscribe_query = db_session.query(Subscribe).order_by(Subscribe.subscribe_id).all();
-        
-        with mail.connect() as conn:
-            for email in subscribe_query:
-                message = 'A new holiday package has been added to Holiday Scapes'
-                subject = package_name
-                msg = Message(recipients=[email],
-                            body=message,
-                            subject=subject)
-
-                conn.send(msg)
 
 
         return 'blob received'
@@ -577,4 +595,4 @@ def popit():
 
 if __name__=='__main__':
     app.debug = True
-    app.run(host='0.0.0.0')
+    app.run(host='0.0.0.0', port=3000)
