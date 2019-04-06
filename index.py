@@ -46,6 +46,7 @@ class Destination(base):
     destination_name = Column(String)
     destination_packages = Column(JSON)
     destination_categories = Column(JSON)
+    active = Column(String, default='True')
     time_stamp = Column(DateTime, default=datetime.datetime.utcnow)
 
 class Package(base):
@@ -377,6 +378,20 @@ def receive_destination():
         
     return render_template('administrator_home.html', error=error, post_package='post_package', destinations=get_all_destinations())
 
+@app.route('/delete_single_destination', methods=['GET', 'POST'])
+def delete_single_destination():
+    if request.method == 'POST':
+        destination = db_session.query(Destination).filter_by(destination_id = str(request.form['destination_id'])).update(dict(active='False'));
+        db_session.commit()
+    return 'True'
+
+@app.route('/delete_single_package', methods=['GET', 'POST'])
+def delete_single_package():
+    if request.method == 'POST':
+        package = db_session.query(Package).filter_by(package_id = str(request.form['package_id'])).update(dict(active='False'));
+        db_session.commit()
+    return 'True'
+
 @app.route('/receive_blob', methods=['GET', 'POST'])
 def receive_blob():
     if request.method == 'POST':
@@ -483,7 +498,7 @@ def receive_blob():
 @app.route('/get_packages')
 def get_packages():
     # package_query = db_session.query(Package).order_by(Package.name).all();
-    package_query = db_session.query(Package).order_by(Package.package_id).all();
+    package_query = db_session.query(Package).filter_by(active = 'True').order_by(Package.package_id).all();
     packages_array = [];
     for package in package_query:
         x = {
@@ -509,7 +524,7 @@ def get_packages():
 @app.route('/get_destinations')
 def get_destinations():
     # package_query = db_session.query(Package).order_by(Package.name).all();
-    destination_query = db_session.query(Destination).order_by(Destination.destination_id).all();
+    destination_query = db_session.query(Destination).filter_by(active = 'True').order_by(Destination.destination_id).all();
     destination_array = [];
     for destination in destination_query:
         x = {

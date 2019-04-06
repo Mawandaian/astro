@@ -1,3 +1,43 @@
+function setParametersId(){
+    return document.getElementById('destination_holder').value
+}
+
+function get_destinations(){
+    // Get Destinations
+    destinations = SendRequest('GET', '', '/get_destinations', false);
+    
+    let destination_holder = document.getElementById('destinations')
+    let options = ''
+
+    for(let x=0; x<destinations.length; x++){
+        options = options + '<option value="'+destinations[x].destination_id+'">'+destinations[x].destination_name+'</option>'
+        console.log('Dest: ',destinations[x].destination_id, destinations[x].destination_name)
+    }
+
+    destination_holder.innerHTML = options
+}
+
+
+function setPackagesId(){
+    return document.getElementById('package_holder').value
+}
+
+function get_packages(){
+    // Get Destinations
+    packages = SendRequest('GET', '', '/get_packages', false);
+    
+    let package_holder = document.getElementById('packages')
+    let options = ''
+
+    for(let x=0; x<packages.length; x++){
+        options = options + '<option value="'+packages[x].package_id+'">'+packages[x].name+'</option>'
+        console.log('Dest: ',packages[x].package_id, packages[x].name)
+    }
+
+    package_holder.innerHTML = options
+}
+
+
 //get image dataurl
 function getBase64FromImageUrl(url, textarea_holder) {
     var img = new Image();
@@ -50,6 +90,14 @@ function edit_destination(destination_id){
     document.getElementById('edit_destination_variable').setAttribute('value', '1');
 
     console.log('Here: ',destination_details)
+}
+
+function delete_destination(destination_id){
+    let formdata = new FormData();
+    formdata.append('destination_id', destination_id)
+
+    package_details = SendRequest('POST', formdata, '/delete_single_destination', false);
+    
 }
 
 
@@ -107,4 +155,12 @@ function edit_package(package_id){
     }
 
     document.getElementById('edit_package_variable').setAttribute('value', '1');
+}
+
+function delete_package(package_id){
+    let formdata = new FormData();
+    formdata.append('package_id', package_id)
+
+    package_details = SendRequest('POST', formdata, '/delete_single_package', false);
+
 }

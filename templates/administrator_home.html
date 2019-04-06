@@ -4,12 +4,21 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet" media="screen">
   </head>
-  <body>
+  <body onload="get_destinations(), get_packages()">
     <div class="container">
         <button onclick="$('.destination_container').show(), $('.packages_container').hide()">Destination</button> <button onclick="$('.destination_container').hide(), $('.packages_container').show()">Packages</button>
         <div class="destination_container">
             <h1>ADD DESTINATION</h1>
-            <button onclick="edit_destination(2)">Edit Destination</button>
+            
+            <input id="destination_holder" list="destinations">
+            <datalist id="destinations">
+                <option value="1">Internet Explorer</option>
+                <option value="2">Opera</option>
+                <option value="3">Internet Explorer</option>
+                <option value="4">Internet Explorer</option>
+            </datalist>
+            <button onclick="edit_destination(setParametersId())">Edit Destination</button>
+            <button onclick="delete_destination(setParametersId())">Delete Destination</button>
 
             <form action="http://127.0.0.1:5000/{{package_destination}}" method="post" id="destinationForm" onsubmit="return false;" enctype='multipart/form-data' >
                 <input type="text" id="destination_id" name="destination_id" value="0" />
@@ -59,7 +68,17 @@
 
         <div class="packages_container">
         <h1>PACKAGES</h1>
-        <button onclick="edit_package(5)">Edit Package</button>
+
+        <input id="package_holder" list="packages">
+            <datalist id="packages">
+                <option value="1">Internet Explorer</option>
+                <option value="2">Opera</option>
+                <option value="3">Internet Explorer</option>
+                <option value="4">Internet Explorer</option>
+            </datalist>
+
+        <button onclick="edit_package(setPackagesId())">Edit Package</button>
+        <button onclick="delete_package(setPackagesId())">Delete Package</button>
         <br>
         <div id="wait" style="display:none;width:69px;height:89px;border:1px solid black;position:absolute;top:50%;left:50%;padding:2px;"><img src='https://www.w3schools.com/jquery/demo_wait.gif' width="64" height="64" /><br>Loading..</div>
         <form action="http://127.0.0.1:5000/{{post_package}}" method="post" id="myForm" onsubmit="return false;" enctype='multipart/form-data' >
